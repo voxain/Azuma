@@ -10,6 +10,7 @@ body, html, button, input, textarea{
     border:none; 
     background: none;
     margin: 0; border:0; padding: 0;
+    transition: .3s ease;
 }
 
 body, html{

@@ -41,19 +41,23 @@
 
 
 <div class="chat-messages">
-    <div class="message">
-        <div class="message-information">
-            <span class="message-author">RMC</span>
-            <span class="message-time">today at 13:37</span>
+    <div class="scroll-container" id="scroller">
+        <div class="messages-container">
+            <div class="message">
+                <div class="message-information">
+                    <span class="message-author">RMC</span>
+                    <span class="message-time">today at 13:37</span>
+                </div>
+                <span class="message-content">yo man whats going</span>
+            </div>
+            <div class="message">
+                <div class="message-information">
+                    <span class="message-author">shini</span>
+                    <span class="message-time">today at 13:38</span>
+                </div>
+                <span class="message-content">this is a message</span>
+            </div>
         </div>
-        <span class="message-content">yo man whats going</span>
-    </div>
-    <div class="message">
-        <div class="message-information">
-            <span class="message-author">shini</span>
-            <span class="message-time">today at 13:38</span>
-        </div>
-        <span class="message-content">this is a message</span>
     </div>
     <input placeholder="Write a message..." id="message" class="input">
 </div>
@@ -63,25 +67,35 @@
 <script>
     var socket = io();
 
-    // Receive the User information and save the token in local storage to re-authenticate the user on connection loss or re-login
+    // TODO: Receive the User information and save the token in local storage to re-authenticate the user on connection loss or re-login
 
     socket.on('message', msg => {
-        // Do something with the message
+        // TODO: Display message in feed
+        // Important: Use `document.createTextNode()` for author name and message content to prevent script injections.
+        console.log(msg);
+
+        // Scroll down so the user can see the new message
+        document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
     })
 
+    // TODO
     // On socket disconnect try to reconnect with the token as message
     // The server will recognize the token and re-login the user
 
     $('#message').on('keypress', e => {
         if(e.which == 13){
             // Send message to socket
+            socket.emit('message', {
+                content: $('#message').val(),
+                channel: 'implement channel feature later'
+            });
             $('#message').val('');
         }
     })
 
     $('.message').on('mousedown', e => {
         if(e.which == 3){
-            // Show context menu
+            // TODO: Show context menu
         }
     });
 

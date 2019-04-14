@@ -132,10 +132,25 @@
     padding-right:10px;
     border-right: 1px solid #eee;
     z-index:83;
-    overflow-y:scroll;
 }
 .chat-messages::-webkit-scrollbar{
-    display: none;
+    /*display: none;*/
+}
+.scroll-container{
+    position: fixed;
+    height: 92%;
+    width: calc(85% - 60px);
+    top:0;
+    right:0;
+    overflow-y:scroll;
+}
+.messages-container{
+    bottom:8%;
+    right:0;
+    height:auto;
+    width: calc(85% - 60px);
+    position: relative;
+    bottom:0;
 }
 
 .message{

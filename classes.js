@@ -16,6 +16,10 @@ class User{
         this.verified = false;
         this.avatar = 'default';
         this.color = 'default';
+        this.status = 'online';
+        this.ban = 'none';
+
+        this.perms = new UserPermissions();
 
         this.token = getToken();
 
@@ -24,18 +28,68 @@ class User{
 
         this.createdAt = Date.now();
     }
+    ban(reason, executor){
+        this.ban = new Ban(reason, executor);
+    }
+    prop(property, value){
+        this[property] = value;
+    }
 }
 
-class Message{
-    constructor(content, author){
+class Channel{
+    constructor(name){
         this.id = Date.now() * Math.round( Math.random() * 5 );
-        this.content = content;
-        this.author = author;
+        this.name = name;
 
         this.createdAt = Date.now();
     }
 }
 
+class Message{
+    constructor(content, author, channel){
+        this.id = Date.now() * Math.round( Math.random() * 5 );
+        this.content = content;
+        this.author = author;
+        this.channel = channel; // Channel Feature not implemented yet
+
+        delete this.author.token;
+        delete this.author.lastSocket;
+        delete this.author.signUpAddress;
+
+        this.createdAt = Date.now();
+    }
+}
+
+class Ban{
+    constructor(reason, author){
+        this.status = true;
+        this.reason = reason;
+        this.executor = author;
+
+        this.expiring = 'never';
+        this.createdAt = Date.now();
+    }
+}
+
+class UserPermissions{
+    constructor(perms){
+        this.ban = false;
+        this.channels = false;
+        this.admin = false;
+
+        switch(perms){
+            case('admin'): 
+                this.admin = true;
+                break;
+            case('moderator'): 
+                this.ban = true;
+                this.channels = true;
+        }
+    }
+
+}
+
+
 module.exports = {
-    Message, User
+    Message, User, Channel
 };
