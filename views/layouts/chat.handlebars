@@ -1,18 +1,101 @@
 <link rel="stylesheet" href="css/main.css" />
 <link rel="stylesheet" href="css/chat.css" />
+<link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.5.95/css/materialdesignicons.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-<input id="message" class="input">
+
+
+<div class="header">
+    
+    <div class="header-information">
+        Logged in as<br>RMC
+    </div>
+    <div class="settings-icon">
+        <span class="mdi mdi-settings"></span>
+    </div>
+</div>
+
+<div class="channellist" id="channels">
+    <div class="channel">#general</div>
+    <div class="channel">#memes</div>
+</div>
+
+<div class="channellist hidden" id="settings">
+    <div class="settings-category" onclick="settings('account')" id="settings-account">Account<span class="mdi mdi-chevron-right settings-chevron"></span></div>
+    <div class="settings-category" onclick="settings('appearance')" id="settings-appearance">Appearance<span class="mdi mdi-chevron-right settings-chevron"></span></div>
+    <a href="/logout"><div class="settings-category">Logout<span class="mdi mdi-account-arrow-right-outline settings-chevron"></span></div></a>
+</div>
+
+<!--Settings popouts-->
+
+<div class="settings-popout" id="settings-account-popout">
+    <span class="settings-headline"><span class="mdi mdi-account-outline"> </span>Account</span><br>
+</div>
+
+<div class="settings-popout" id="settings-appearance-popout">
+    <span class="settings-headline"><span class="mdi mdi-palette-outline"> </span>Appearance</span><br>
+    <!--Yeah, it's simple. But works. xd-->
+    <button class="button" onclick="$(document.body).toggleClass('invert')">Switch Theme</button>
+</div>
+
+
+
+<div class="chat-messages">
+    <div class="message">
+        <div class="message-information">
+            <span class="message-author">RMC</span>
+            <span class="message-time">today at 13:37</span>
+        </div>
+        <span class="message-content">yo man whats going</span>
+    </div>
+    <div class="message">
+        <div class="message-information">
+            <span class="message-author">shini</span>
+            <span class="message-time">today at 13:38</span>
+        </div>
+        <span class="message-content">this is a message</span>
+    </div>
+    <input placeholder="Write a message..." id="message" class="input">
+</div>
+
+
+
 <script>
-  var socket = io();
+    var socket = io();
 
-  socket.on('message', msg => {
-      // Do something with the message
-  })
+    // Receive the User information and save the token in local storage to re-authenticate the user on connection loss or re-login
 
-  $('.input').on('keypress', e => {
-      if(e.which == 13){
-          // Send message to socket
-      }
-  })
+    socket.on('message', msg => {
+        // Do something with the message
+    })
+
+    // On socket disconnect try to reconnect with the token as message
+    // The server will recognize the token and re-login the user
+
+    $('#message').on('keypress', e => {
+        if(e.which == 13){
+            // Send message to socket
+            $('#message').val('');
+        }
+    })
+
+    $('.message').on('mousedown', e => {
+        if(e.which == 3){
+            // Show context menu
+        }
+    });
+
+    $('.settings-icon').on('click', e => {
+        $('#settings').toggleClass('hidden');
+        $('.settings-category').css('border-right', 'none');
+        $('.settings-popout').removeClass('unhide');
+    });
+
+    function settings(name){
+        $('.settings-category').css('border-right', 'none');
+        $('#settings-' + name).css('border-right', '1px solid white');
+
+        $('.settings-popout').removeClass('unhide');
+        $('#settings-' + name + '-popout').addClass('unhide');
+    }
 </script>

@@ -5,7 +5,6 @@ let getToken = () => {
         if(Math.round(Math.random())) token += chars[Math.round( Math.random() * (chars.length - 1) )].toLowerCase();
         else token += chars[Math.round( Math.random() * chars.length - 1 )];
     }
-    console.log(token)
     return token;
 };
 
@@ -13,6 +12,10 @@ class User{
     constructor(nickname, socket){
         this.id = Date.now() * Math.round( Math.random() * 5 );
         this.name = nickname;
+
+        this.verified = false;
+        this.avatar = 'default';
+        this.color = 'default';
 
         this.token = getToken();
 

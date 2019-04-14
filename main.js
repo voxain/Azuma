@@ -43,15 +43,7 @@ io.on('connection', sock => {
 
 // Express response for main page
 
-app.get('/', (req, res) => {
-    res.render('home');
-});
-
-app.get('/chat', (req, res) => {
-    res.render('home', {
-        layout: 'chat'
-    });
-});
+require('./routes.js')(app);
 
 
 // listen

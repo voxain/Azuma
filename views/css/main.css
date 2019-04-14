@@ -4,16 +4,20 @@
     --accent: #008fff;
 }
 
-body, html{
-    background: white;
-    text-align: center;
-    margin-top: 100px;
-}
 body, html, button, input, textarea{
     color: #222222;
     font-family: Hind, Helvetica, Arial, sans-serif;
     border:none; 
     background: none;
+    margin: 0; border:0; padding: 0;
+}
+
+body, html{
+    background: white;
+}
+
+a{
+    text-decoration: none;
 }
 
 button:focus, input:focus{
@@ -29,15 +33,14 @@ button:focus, input:focus{
     background: white;
     border-radius: 5px;
     font-size: 20px;
-    box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
     color:#222;
 }
 .button:hover{
     cursor: pointer; 
-    box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
 }
 .button:active{
-    box-shadow: 0px 1px 1px rgba(0,0,0,0.5);
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
 }
 img{
     filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.4))
@@ -85,4 +88,8 @@ img{
 @keyframes spin{
     0%  { transform: rotate( 0deg ) }
     100%{ transform: rotate( 360deg )}
+}
+
+.invert{
+    filter: invert(1);
 }
