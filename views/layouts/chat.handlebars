@@ -42,24 +42,14 @@
 
 <div class="chat-messages">
     <div class="scroll-container" id="scroller">
-        <div class="messages-container">
-            <div class="message">
-                <div class="message-information">
-                    <span class="message-author">RMC</span>
-                    <span class="message-time">today at 13:37</span>
-                </div>
-                <span class="message-content">yo man whats going</span>
-            </div>
-            <div class="message">
-                <div class="message-information">
-                    <span class="message-author">shini</span>
-                    <span class="message-time">today at 13:38</span>
-                </div>
-                <span class="message-content">this is a message</span>
-            </div>
+        <div class="messages-container" id="messages-container">
+            <!--Messages are appended here-->
         </div>
     </div>
-    <input placeholder="Write a message..." id="message" class="input">
+    <div class="input h">
+        <input placeholder="Write a message..." id="message" class="input messagebox">
+        <span class="mdi mdi-send send-icon" id="send"></span>
+    </div>
 </div>
 
 
@@ -67,12 +57,55 @@
 <script>
     var socket = io();
 
+    let last = {
+        author: '',
+        id: ''
+    }
+
+    let create_message = msg => {
+        // Header (Author/Time)
+        let header = document.createElement('div');
+
+        let author = document.createElement('span');
+        author.classList = 'message-author';
+        author.append(document.createTextNode(msg.author.name + ' '));
+
+        let time = document.createElement('span');
+        time.classList = 'message-time';
+        time.innerHTML = new Date(Date(message.createdAt).toString()).toUTCString();
+
+        header.append(author);
+        header.append(time);
+
+        // Content
+        let content = document.createElement('span');
+        content.classList = 'message-content';
+        content.append(document.createTextNode(msg.content));
+
+
+        // Message
+        if(last.author.id == msg.author.id){
+            document.getElementById('message-' + last.id).append(document.createElement('br'));
+            document.getElementById('message-' + last.id).append(content);
+        }
+        else{
+            let message = document.createElement('div');
+            message.classList = 'message';
+            message.append(header);
+            message.append(content);
+
+            message.id = 'message-' + msg.id;
+            last.id = msg.id;
+            document.getElementById('messages-container').append(message);
+        }
+        last.author = msg.author;
+
+    };
+
     // TODO: Receive the User information and save the token in local storage to re-authenticate the user on connection loss or re-login
 
     socket.on('message', msg => {
-        // TODO: Display message in feed
-        // Important: Use `document.createTextNode()` for author name and message content to prevent script injections.
-        console.log(msg);
+        create_message(msg);
 
         // Scroll down so the user can see the new message
         document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
@@ -82,15 +115,23 @@
     // On socket disconnect try to reconnect with the token as message
     // The server will recognize the token and re-login the user
 
+    let send_message = () => {
+        // Send message to socket
+        socket.emit('message', {
+            content: $('#message').val(),
+            channel: 'implement channel feature later'
+        });
+        $('#message').val('');
+    };
+
     $('#message').on('keypress', e => {
         if(e.which == 13){
-            // Send message to socket
-            socket.emit('message', {
-                content: $('#message').val(),
-                channel: 'implement channel feature later'
-            });
-            $('#message').val('');
+            send_message();
         }
+    })
+
+    $('#send').on('click', e => {
+            send_message();
     })
 
     $('.message').on('mousedown', e => {

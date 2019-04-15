@@ -40,18 +40,17 @@ let io = socket(server);
  * Planned Emittable Event types:
  *
  * Message
- * Info (visible for one user only)
+ * System (Banner in chat)
  * User Join/Leave
  * Alert (shows a client popup)
  */
 
 io.on('connection', sock => {
     console.log('User connected. SocketID ' + sock.id + ', IP ' + sock.handshake.address);
-    sock.emit('message', 'The connection to the websocket was successfully established.');
-    
+
     // Create new User and send it to the client
 
-    sock.user = new chat.User('Gustav', sock);
+    sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 4)], sock);
     cached_users.set(sock.id, sock.user);
 
 

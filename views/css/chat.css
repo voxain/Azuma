@@ -2,6 +2,7 @@
     position: absolute;
     bottom: 20px;
     width:calc(96% - 26px);
+    height:40px;
     left:3%;
     padding:8px;
     padding-left:13px;
@@ -17,14 +18,26 @@
 
 
 
-.input:hover{
+.input.h:hover{
     cursor: pointer; 
     box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
 }
-.input:focus{
+.input.h:focus{
     box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
 }
 
+.input.messagebox{
+    width: calc(100% - 40px);
+    position: static;
+    float:left;
+}
+.send-icon{
+    width:40px;
+    height:40px;
+    font-size:25px;
+    line-height:40px;
+    float:right;
+}
 
 
 .header{
@@ -133,8 +146,8 @@
     border-right: 1px solid #eee;
     z-index:83;
 }
-.chat-messages::-webkit-scrollbar{
-    /*display: none;*/
+.scroll-container::-webkit-scrollbar{
+    display: none;
 }
 .scroll-container{
     position: fixed;
@@ -163,6 +176,7 @@
     border-radius: 5px;
     font-size: 20px;
     margin:8px;
+    line-height:27px;
 }
 .message:hover{
     box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
@@ -183,6 +197,7 @@
 }
 .message-content{
     color:#222;
+    width:auto;
 }
 
 
