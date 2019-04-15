@@ -2,5 +2,7 @@ module.exports = [
     'Gustav',
     'Hans',
     'Rainer',
-    'Meerjungfraumann'
+    'Meerjungfraumann',
+    'Blaubarschbube',
+    'Karl-Heinz'
 ];

@@ -53,6 +53,8 @@ io.on('connection', sock => {
     sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 4)], sock);
     cached_users.set(sock.id, sock.user);
 
+    io.emit('system', 'New user: <b>' + sock.user.name + '</b>');
+
 
     sock.on('message', message => {
         // Send message to other clients
@@ -63,6 +65,14 @@ io.on('connection', sock => {
             if(user.ban != 'none') sock.emit('alert', [
                 'You were banned from the chatroom.', 
                 'By: ' + user.ban.executor.name + '\nReason: ' + user.ban.reason
+            ]);
+            else if(message.content == '' || !message.content.match(/([^ ])/g)) sock.emit('alert', [
+                'Your message is too short.', 
+                'Please don\'t send empty messages.'
+            ]);
+            else if(message.content.length > 2000) sock.emit('alert', [
+                'Your message is too long.', 
+                'Your message must be less than 2000 characters.'
             ]);
             else {
                 let msg = new chat.Message(message.content, user, message.channel);

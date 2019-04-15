@@ -111,6 +111,20 @@
         document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
     })
 
+    socket.on('alert', al => {
+        alert(al[0] + '\n\n' + al[1])
+    });
+
+    socket.on('system', al => {
+        let sys = document.createElement('div');
+        sys.classList = 'message';
+        sys.style.textAlign = 'center';
+        sys.innerHTML = al;
+
+        document.getElementById('messages-container').append(sys);
+        document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
+    });
+
     // TODO
     // On socket disconnect try to reconnect with the token as message
     // The server will recognize the token and re-login the user
