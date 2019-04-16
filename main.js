@@ -59,7 +59,6 @@ io.on('connection', (sock) => {
             sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 6)], 'none', 'none', sock);
             cached_users.set(sock.user.token, sock.user);
 
-            io.emit('system', 'New user: <b>' + sock.user.name + '</b>');
             sock.emit('login', cached_users.get(data.token));
         }
         else{
@@ -75,6 +74,7 @@ io.on('connection', (sock) => {
     });*/
         sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 6)], 'none', 'none', sock);
         cached_users.set(sock.id, sock.user);
+        io.emit('system', 'New user: <b>' + sock.user.name + '</b>');
 
     sock.on('disconnect', () => {
         io.emit('system', 'User left: <b>' + sock.user + '</b>');
