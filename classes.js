@@ -9,7 +9,7 @@ let getToken = () => {
 };
 
 class User{
-    constructor(nickname, socket){
+    constructor(nickname, perms, props, socket){
         this.id = Date.now() * Math.round( Math.random() * 5 );
         this.name = nickname;
 
@@ -19,14 +19,20 @@ class User{
         this.status = 'online';
         this.ban = 'none';
 
-        this.perms = new UserPermissions();
+        this.perms = new UserPermissions(perms || '');
 
         this.token = getToken();
 
-        this.lastSocket = socket.id;
-        this.signUpAddress = socket.handshake.address;
+        this.lastSocket = (socket ? socket.id : 'none');
+        this.signUpAddress = (socket ? socket.handshake.address : 'none');
 
         this.createdAt = Date.now();
+
+        if(props && props != 'none'){
+            props.map(k => {
+                this[k[0]] = k[1];
+            });
+        }
     }
     ban(reason, executor){
         this.ban = new Ban(reason, executor);

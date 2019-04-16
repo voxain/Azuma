@@ -23,6 +23,7 @@
 <div class="channellist hidden" id="settings">
     <div class="settings-category" onclick="settings('account')" id="settings-account">Account<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <div class="settings-category" onclick="settings('appearance')" id="settings-appearance">Appearance<span class="mdi mdi-chevron-right settings-chevron"></span></div>
+    <div class="settings-category" onclick="settings('info')" id="settings-info">Info<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <a href="/logout"><div class="settings-category">Logout<span class="mdi mdi-account-arrow-right-outline settings-chevron"></span></div></a>
 </div>
 
@@ -38,6 +39,11 @@
     <button class="button" onclick="$(document.body).toggleClass('invert')">Switch Theme</button>
 </div>
 
+<div class="settings-popout" id="settings-info-popout">
+    <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Info</span><br>
+    Azuma is being developed by shinixsensei and RMC Productions.
+</div>
+
 
 
 <div class="chat-messages">
@@ -50,6 +56,10 @@
         <input placeholder="Write a message..." id="message" class="input messagebox">
         <span class="mdi mdi-send send-icon" id="send"></span>
     </div>
+</div>
+
+<div id="disconnection-warning">
+    You have been disconnected from the chat. Please be patient.
 </div>
 
 
@@ -102,6 +112,16 @@
 
     };
 
+    let create_banner = al => {
+        let sys = document.createElement('div');
+        sys.classList = 'message';
+        sys.style.textAlign = 'center';
+        sys.innerHTML = al;
+
+        document.getElementById('messages-container').append(sys);
+        document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
+    }
+
     // TODO: Receive the User information and save the token in local storage to re-authenticate the user on connection loss or re-login
 
     socket.on('message', msg => {
@@ -116,18 +136,24 @@
     });
 
     socket.on('system', al => {
-        let sys = document.createElement('div');
-        sys.classList = 'message';
-        sys.style.textAlign = 'center';
-        sys.innerHTML = al;
-
-        document.getElementById('messages-container').append(sys);
-        document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
+        create_banner(al);
     });
 
+    socket.on('disconnect', () => {
+        // TODO
+        // On socket disconnect try to reconnect with the token as message
+        // The server will recognize the token and re-login the user
+
+        $('#disconnection-warning').addClass('unhide');
+    })
+
+    socket.on('connect', () => {
+        $('#disconnection-warning').removeClass('unhide');
+    })
+
+
     // TODO
-    // On socket disconnect try to reconnect with the token as message
-    // The server will recognize the token and re-login the user
+    // Focus input on unfocused typing
 
     let send_message = () => {
         // Send message to socket
@@ -167,4 +193,17 @@
         $('.settings-popout').removeClass('unhide');
         $('#settings-' + name + '-popout').addClass('unhide');
     }
+
+
+
+    // LOGIN
+    
+/*
+    socket.emit('login', {
+        token: window.localStorage.getItem('token') || 'new'
+    });
+
+    socket.on('login', data => {
+        window.localStorage.setItem('token', data.token)
+    });*/
 </script>

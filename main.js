@@ -13,6 +13,8 @@ const config    = require('./server-config.json');
 
 let cached_users = new Map();
 
+cached_users.set('DEFAULT', require('./defaults/user.js'));
+
 
 // Express initialization
 
@@ -45,19 +47,42 @@ let io = socket(server);
  * Alert (shows a client popup)
  */
 
-io.on('connection', sock => {
+io.on('connection', (sock) => {
     console.log('User connected. SocketID ' + sock.id + ', IP ' + sock.handshake.address);
 
-    // Create new User and send it to the client
+    /*sock.on('login', data => {
+        console.log('login')
+        if(data.token == 'new'){
+            console.log('new user')
+            // Create new User and send it to the client
 
-    sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 4)], sock);
-    cached_users.set(sock.id, sock.user);
+            sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 6)], 'none', 'none', sock);
+            cached_users.set(sock.user.token, sock.user);
 
-    io.emit('system', 'New user: <b>' + sock.user.name + '</b>');
+            io.emit('system', 'New user: <b>' + sock.user.name + '</b>');
+            sock.emit('login', cached_users.get(data.token));
+        }
+        else{
+            console.log('relogin')
+            if(cached_users.has(data.token)){
+                sock.emit('system', 'You have been logged in as ' + cached_users.get(data.token).name);
+                sock.emit('login', cached_users.get(data.token));
+                sock.user = cached_users.get(data.token);
+                cached_users.set(sock.user.token, sock.user);
+                io.emit('system', 'User online: <b>' + sock.user.name + '</b>');
+            }
+        }
+    });*/
+        sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 6)], 'none', 'none', sock);
+        cached_users.set(sock.id, sock.user);
 
+    sock.on('disconnect', () => {
+        io.emit('system', 'User left: <b>' + sock.user + '</b>');
+    });
 
     sock.on('message', message => {
         // Send message to other clients
+        
 
         if(cached_users.has(sock.id) && cached_users.get(sock.id)){
     
@@ -79,7 +104,11 @@ io.on('connection', sock => {
                 io.emit('message', msg);
             }
         }
+        else{
+            sock.emit('alert', ['You\'re not logged in.', 'That\'s all we know.']);
+        }
     });
+
 });
 
 

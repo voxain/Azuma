@@ -84,10 +84,11 @@
     z-index:90;
     overflow-y:scroll;
     background: white;
-    transition: .3s ease;
+    transition: .4s cubic-bezier(0, 1, .5, 1);
 }
 .channellist.hidden{
     left:calc(-17% - 40px);
+    transition: .4s cubic-bezier(1, 0, 1, .5);
 }
 .channellist::-webkit-scrollbar{
     display: none;
@@ -227,4 +228,23 @@
 }
 .settings-headline{
     font-size:30px;
+}
+
+
+#disconnection-warning{
+    position: fixed;
+    width:100%;
+    height:25px;
+    line-height: 25px;
+    color:white;
+    background:red;
+    padding:0;
+    text-align: center;
+    top: -30px;
+    left: 0;
+    z-index: 150;
+    transition: .2s ease;
+}
+#disconnection-warning.unhide{
+    top:0;
 }
