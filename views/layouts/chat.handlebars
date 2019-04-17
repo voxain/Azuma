@@ -8,7 +8,7 @@
 <div class="header">
     
     <div class="header-information">
-        Logged in as<br>RMC
+        Logged in as<br>
     </div>
     <div class="settings-icon">
         <span class="mdi mdi-settings"></span>
@@ -30,7 +30,7 @@
 <!--Settings popouts-->
 
 <div class="settings-popout" id="settings-account-popout">
-    <span class="settings-headline"><span class="mdi mdi-account-outline"> </span>Account</span><br>
+    <span class="settings-headline"><span classutlin="mdi mdi-account-oe"> </span>Account</span><br>
 </div>
 
 <div class="settings-popout" id="settings-appearance-popout">
@@ -129,7 +129,7 @@
 
         // Scroll down so the user can see the new message
         document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
-    })
+    });
 
     socket.on('alert', al => {
         alert(al[0] + '\n\n' + al[1])
@@ -193,6 +193,10 @@
         $('.settings-popout').removeClass('unhide');
         $('#settings-' + name + '-popout').addClass('unhide');
     }
+
+    $(() => {
+        $('header-information').append(socket.user.name);
+    });
 
 
 

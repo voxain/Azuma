@@ -3,3 +3,4 @@ node_modules/
 .jshintrc
 package-lock.json
 server-config.json
+.idea/
