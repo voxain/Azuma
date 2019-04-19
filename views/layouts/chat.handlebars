@@ -115,7 +115,8 @@
     let create_banner = al => {
         let sys = document.createElement('div');
         sys.classList = 'message';
-        sys.style.textAlign = 'center';
+        sys.style.borderLeft = '4px solid #ccc';
+        sys.style.borderRadius = '0 5px 5px 0';
         sys.innerHTML = al;
 
         document.getElementById('messages-container').append(sys);

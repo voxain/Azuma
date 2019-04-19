@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="css/main.css" />
+<link rel="stylesheet" href="css/home.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+
+<div class="form-body" id="form-login">
+    <center>
+        <img src="resources/graphics/Azuma-Logo-gradient.svg" class="form-logo">
+        <br><br>
+        Create a new Account<br><br>
+        <input class="button form-input" placeholder="Username" id="name"><br>
+        <button class="button form-input" id="input">Let's do this!</button><br><br>
+        <span style="font-size:13px">Or <a style="color:blue;cursor:pointer;text-decoration:underline">login with an existing account?</a></span>
+    </center>
+</div>
+
+<div class="form-body hidden" id="form-success">
+    <center>
+        <img src="resources/graphics/Azuma-Logo-gradient.svg" class="form-logo">
+        <br><br>
+        <span style="color: green">Your account has successfully been created.</span><br>
+        You can now start chatting.<br><br>
+        <a href="/chat">
+            <button class="button form-input">Take me to the chatroom!</button>
+        </a>
+    </center>
+</div>
+
+<div class="form-body hidden" id="form-error">
+    <center>
+        <img src="resources/graphics/Azuma-Logo-gradient.svg" class="form-logo">
+        <br><br>
+        <span style="color: red" id="error">Error: An unknown error occured.</span><br>
+        Please try again later. If you're still having issues, contact the developers.<br><br>
+        <button class="button form-input" id="try-again">Let me try again!</button>
+    </center>
+</div>
+
+<div class="footer">
+    Azuma v0.0.1a
+    <span id="information-text" class="footer-right">
+        Ready
+    </span>
+</div>
+<script>
+    // Screw jQuery
+    document.getElementById('input').addEventListener('click', e => {
+        e.target.innerHTML='Working on it...';
+        e.target.style.animation = 'bgLoading 1s linear infinite';
+
+        try{
+            let request = new XMLHttpRequest();
+            request.open('GET', `/api/create_user/${ $('#name').val() }`);
+
+            request.onload = () => {
+                let data = JSON.parse(request.response)
+                console.log(data)
+                if(!data.success){
+                    $('#error').text('Error: ' + data.error);
+                    $('#form-login').css('transform', 'rotateY(180deg)');
+                    $('#form-login').css('opacity', '0');
+                    $('#form-error').css('transform', 'rotateY(0deg)');
+                    $('#form-error').css('opacity', '1');
+                    $('#form-error').removeClass('hidden');
+                    setTimeout(() => $('#form-login').addClass('hidden'), 290);
+                }
+                else{
+                    $('#form-login').css('transform', 'rotateY(180deg)');
+                    $('#form-login').css('opacity', '0');
+                    $('#form-success').removeClass('hidden');
+                }
+            };
+            request.onerror = err => {
+                e.target.innerHTML='Let\'s do this!';
+                e.target.style.animation = 'none';
+                $('.form-body').append('Something went wrong. Please try again.');
+            };
+            request.send();
+        }
+        catch (err){
+            e.target.innerHTML='Let\'s do this!';
+            e.target.style.animation = 'none';
+            $('.form-body').append('Something went wrong. Please try again.');
+        }
+
+        $('#try-again').on('click', e => {
+            $('#input').text('Let\'s do this!');
+            $('#input').css('animation', 'none');
+
+            $('#form-login').css('transform', 'rotateY(0deg)');
+            $('#form-login').css('opacity', '1');
+            $('#form-login').removeClass('hidden');
+            $('#form-error').css('transform', 'rotateY(180deg)');
+            $('#form-error').css('opacity', '0');
+            setTimeout(() => $('#form-error').addClass('hidden'), 290);
+        });
+
+    });
+</script>

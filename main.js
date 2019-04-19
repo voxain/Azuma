@@ -7,6 +7,11 @@ const socket    = require('socket.io');
 
 const chat      = require('./classes.js');
 const config    = require('./server-config.json');
+const randoms   = {
+    names   : require('./defaults/randomNames.js'),
+    joins   : require('./defaults/joinMessages.js'),
+    leaves  : require('./defaults/leaveMessages.js')
+};
 
 
 // Caches Setup
@@ -72,16 +77,15 @@ io.on('connection', (sock) => {
             }
         }
     });*/
-        sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 6)], 'none', 'none', sock);
+        sock.user = new chat.User(randoms.names[Math.round(Math.random() * (randoms.names.length - 1))], 'none', 'none', sock);
         cached_users.set(sock.id, sock.user);
-        io.emit('system', 'New user: <b>' + sock.user.name + '</b>');
+        io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
 
     sock.on('disconnect', () => {
-        io.emit('system', 'User left: <b>' + sock.user + '</b>');
+        io.emit('system', randoms.leaves[Math.round(Math.random() * (randoms.leaves.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
     });
 
     sock.on('message', message => {
-        // Send message to other clients
         
 
         if(cached_users.has(sock.id) && cached_users.get(sock.id)){
@@ -101,6 +105,18 @@ io.on('connection', (sock) => {
             ]);
             else {
                 let msg = new chat.Message(message.content, user, message.channel);
+
+                // Preparation for chat commands
+                /*
+                 * Planned commands:
+                 * /system <message>: Sends a join/leave-like message banner
+                 * /eval <code>: Evals JavaScript code from the chat
+                 * /color <user> <color>: Applies the given color to the given user.
+                 * /ban <user> <reason>: Bans the given user for the given reason.
+                 * 
+                 */
+                if(msg.content.startsWith('/')) return;
+
                 io.emit('message', msg);
             }
         }

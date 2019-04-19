@@ -152,7 +152,7 @@
 }
 .scroll-container{
     position: fixed;
-    height: 92%;
+    height: calc(100% - 80px);
     width: calc(85% - 60px);
     top:0;
     right:0;
@@ -219,6 +219,7 @@
     background: white;
     transition: .3s ease;
     box-shadow: 10px 0px 10px rgba(0,0,0,0.1);
+    transition: .4s cubic-bezier(0, 1, .5, 1);
 }
 .settings-popout.unhide{
     left:calc(15% + 41px);

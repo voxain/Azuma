@@ -4,7 +4,7 @@
     --accent: #008fff;
 }
 
-body, html, button, input, textarea{
+body, html, button, input, textarea, select{
     color: #222222;
     font-family: Hind, Helvetica, Arial, sans-serif;
     border:none; 
@@ -21,7 +21,7 @@ a{
     text-decoration: none;
 }
 
-button:focus, input:focus{
+button:focus, input:focus, select:focus{
     outline: none;
 }
 
