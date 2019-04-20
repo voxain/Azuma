@@ -3,6 +3,7 @@
 <link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.5.95/css/materialdesignicons.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="js/REST.js"></script>
 
 
 <div class="header">
@@ -59,12 +60,21 @@
 </div>
 
 <div id="disconnection-warning">
-    You have been disconnected from the chat. Please be patient.
+    <span class="mdi mdi-close-network-outline"></span>You have been disconnected from the chat. Please be patient.
 </div>
 
 
 
 <script>
+    if(!window.localStorage.getItem('token')){
+        window.location.replace("/login");
+    }
+    
+    let who_am_i = api.request('user/token/' + window.localStorage.getItem('token'));
+    if(!api.request('user/token/' + window.localStorage.getItem('token'))){
+        window.location.replace("/login");
+    }
+
     var socket = io();
 
     let last = {
@@ -78,6 +88,7 @@
 
         let author = document.createElement('span');
         author.classList = 'message-author';
+        author.style.color = msg.author.color;
         author.append(document.createTextNode(msg.author.name + ' '));
 
         let time = document.createElement('span');
@@ -195,9 +206,9 @@
         $('#settings-' + name + '-popout').addClass('unhide');
     }
 
-    $(() => {
+    /*$(() => {
         $('header-information').append(socket.user.name);
-    });
+    });*/
 
 
 

@@ -16,9 +16,9 @@ const randoms   = {
 
 // Caches Setup
 
-let cached_users = new Map();
-
-cached_users.set('DEFAULT', require('./defaults/user.js'));
+let cached_users = require('./cache_users.js');
+let default_user = require('./defaults/user.js');
+cached_users.set(default_user.token, default_user);
 
 
 // Express initialization
@@ -29,6 +29,7 @@ app.engine('handlebars', hbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.use('/resources', express.static(__dirname + '/views/resources'));
 app.use('/css', express.static(__dirname + '/views/css'));
+app.use('/js', express.static(__dirname + '/views/js'));
 
 
 // Webserver initialization
@@ -78,7 +79,7 @@ io.on('connection', (sock) => {
         }
     });*/
         sock.user = new chat.User(randoms.names[Math.round(Math.random() * (randoms.names.length - 1))], 'none', 'none', sock);
-        cached_users.set(sock.id, sock.user);
+        cached_users.set(sock.user.token, sock.user);
         io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
 
     sock.on('disconnect', () => {
@@ -86,11 +87,10 @@ io.on('connection', (sock) => {
     });
 
     sock.on('message', message => {
-        
 
-        if(cached_users.has(sock.id) && cached_users.get(sock.id)){
+        if(cached_users.has(sock.user.token) && cached_users.get(sock.user.token)){
     
-            let user = cached_users.get(sock.id);
+            let user = cached_users.get(sock.user.token);
             if(user.ban != 'none') sock.emit('alert', [
                 'You were banned from the chatroom.', 
                 'By: ' + user.ban.executor.name + '\nReason: ' + user.ban.reason

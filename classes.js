@@ -3,7 +3,7 @@ let getToken = () => {
     let token = '';
     for (let i = 0; i < 32; i++){
         if(Math.round(Math.random())) token += chars[Math.round( Math.random() * (chars.length - 1) )].toLowerCase();
-        else token += chars[Math.round( Math.random() * chars.length - 1 )];
+        else token += chars[Math.round( Math.random() * (chars.length) - 1 )];
     }
     return token;
 };
@@ -15,7 +15,7 @@ class User{
 
         this.verified = false;
         this.avatar = 'default';
-        this.color = 'default';
+        this.color = '#222';
         this.status = 'online';
         this.ban = 'none';
 

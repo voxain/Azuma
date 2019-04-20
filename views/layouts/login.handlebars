@@ -10,7 +10,18 @@
         Create a new Account<br><br>
         <input class="button form-input" placeholder="Username" id="name"><br>
         <button class="button form-input" id="input">Let's do this!</button><br><br>
-        <span style="font-size:13px">Or <a style="color:blue;cursor:pointer;text-decoration:underline">login with an existing account?</a></span>
+        <span style="font-size:13px">Or <a id="login" style="color:blue;cursor:pointer;text-decoration:underline">login with an existing account?</a></span>
+    </center>
+</div>
+
+<div class="form-body hidden" id="form-logon">
+    <center>
+        <img src="resources/graphics/Azuma-Logo-gradient.svg" class="form-logo">
+        <br><br>
+        Login to account<br><br>
+        <input class="button form-input" placeholder="Token" type="password"><br>
+        <button class="button form-input">LET ME IIIIIN!</button><br><br>
+        <span style="font-size:13px">Or <a id="logon" style="color:blue;cursor:pointer;text-decoration:underline">create a new account?</a></span>
     </center>
 </div>
 
@@ -20,6 +31,25 @@
         <br><br>
         <span style="color: green">Your account has successfully been created.</span><br>
         You can now start chatting.<br><br>
+        Your authorization token is <span class="code_block" id="login_token"></span> - <span style="color:red; font-weight: bold">DO NOT GIVE THIS TOKEN TO ANYONE.</span> It functions like a username+password for your account.<br><br>
+        You will need this to re-login to your account from another client.<br>
+        <span style="font-size:13px"><a id="tokens" style="color:blue;cursor:pointer;text-decoration:underline">More info about tokens...</a></span><br><br>
+        <a href="/chat">
+            <button class="button form-input">Take me to the chatroom!</button>
+        </a>
+    </center>
+</div>
+
+<div class="form-body hidden" id="form-tokens">
+    <center>
+        <img src="resources/graphics/Azuma-Logo-gradient.svg" class="form-logo">
+        <br><br>
+        Your authorization token is like a username+password for your account. Everyone with this token will be able to access your account and the information saved along with it.<br><br>
+        After the successful creation of an account or login, the token will be stored locally within your browser cache. If you access the site, even after you restarted your device, it will automatically re-login you into your account.<br>
+        When you logout from your account, this token will be deleted.<br><br>
+        <del>If you leaked your token by accident, make sure to go to "Your Account" settings and click "Lock Account". This way, no login to your account will be possible.</del><br>
+        After that, you can talk to the developers so we can re-generate your token and unlock your account.
+        <span style="font-size:13px"><a id="back" style="color:blue;cursor:pointer;text-decoration:underline">Back</a></span><br><br>
         <a href="/chat">
             <button class="button form-input">Take me to the chatroom!</button>
         </a>
@@ -43,6 +73,31 @@
     </span>
 </div>
 <script>
+    let showPanel = (old, now) => {
+        $('#form-' + old).css('transform', 'rotateY(180deg)');
+        $('#form-' + old).css('opacity', '0');
+        $('#form-' + now).css('transform', 'rotateY(0deg)');
+        $('#form-' + now).css('opacity', '1');
+        $('#form-' + now).removeClass('hidden');
+        setTimeout(() => $('#form-' + old).addClass('hidden'), 290);
+    };
+
+    $('#login').on('click', e => {
+        showPanel('login', 'logon');
+    });
+
+    $('#logon').on('click', e => {
+        showPanel('logon', 'login');
+    });
+
+    $('#tokens').on('click', e => {
+        showPanel('success', 'tokens');
+    });
+
+    $('#back').on('click', e => {
+        showPanel('tokens', 'success');
+    });
+
     // Screw jQuery
     document.getElementById('input').addEventListener('click', e => {
         e.target.innerHTML='Working on it...';
@@ -53,21 +108,15 @@
             request.open('GET', `/api/create_user/${ $('#name').val() }`);
 
             request.onload = () => {
-                let data = JSON.parse(request.response)
-                console.log(data)
+                let data = JSON.parse(request.response);
                 if(!data.success){
                     $('#error').text('Error: ' + data.error);
-                    $('#form-login').css('transform', 'rotateY(180deg)');
-                    $('#form-login').css('opacity', '0');
-                    $('#form-error').css('transform', 'rotateY(0deg)');
-                    $('#form-error').css('opacity', '1');
-                    $('#form-error').removeClass('hidden');
-                    setTimeout(() => $('#form-login').addClass('hidden'), 290);
+                    showPanel('login', 'error');
                 }
                 else{
-                    $('#form-login').css('transform', 'rotateY(180deg)');
-                    $('#form-login').css('opacity', '0');
-                    $('#form-success').removeClass('hidden');
+                    $('#login_token').text(data.token);
+                    window.localStorage.setItem('token', data.token);
+                    showPanel('login', 'success');
                 }
             };
             request.onerror = err => {
@@ -87,12 +136,7 @@
             $('#input').text('Let\'s do this!');
             $('#input').css('animation', 'none');
 
-            $('#form-login').css('transform', 'rotateY(0deg)');
-            $('#form-login').css('opacity', '1');
-            $('#form-login').removeClass('hidden');
-            $('#form-error').css('transform', 'rotateY(180deg)');
-            $('#form-error').css('opacity', '0');
-            setTimeout(() => $('#form-error').addClass('hidden'), 290);
+            showPanel('error', 'login');
         });
 
     });

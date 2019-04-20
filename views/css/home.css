@@ -15,6 +15,12 @@ body, html{
     border-radius: 5px;
     transition: .3s ease;
     animation: flipIn .3s ease;
+    line-height: 25px;
+    max-height:70%;
+    overflow-y: scroll;
+}
+.form-body::-webkit-scrollbar{
+    display:none;
 }
 .form-body.hidden{
     opacity: 0;
