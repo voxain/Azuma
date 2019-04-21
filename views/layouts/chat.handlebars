@@ -69,11 +69,18 @@
     if(!window.localStorage.getItem('token')){
         window.location.replace("/login");
     }
-    
-    let who_am_i = api.request('user/token/' + window.localStorage.getItem('token'));
-    if(!api.request('user/token/' + window.localStorage.getItem('token'))){
-        window.location.replace("/login");
-    }
+
+    let who_am_i = 'nobody';
+    api.request('user/token/' + window.localStorage.getItem('token'), d => {
+        let data = JSON.parse(d);
+        if(!data.success){
+            alert("You provided an invalid token. We will now redirect you to the login page.");
+            window.location.replace("/login");
+        }
+        else{
+            $('.header-information').append(document.createTextNode(data.data.name));
+        }
+    });
 
     var socket = io();
 
@@ -81,6 +88,8 @@
         author: '',
         id: ''
     }
+
+    socket.emit('login', window.localStorage.getItem('token'));
 
     let create_message = msg => {
         // Header (Author/Time)
@@ -205,10 +214,6 @@
         $('.settings-popout').removeClass('unhide');
         $('#settings-' + name + '-popout').addClass('unhide');
     }
-
-    /*$(() => {
-        $('header-information').append(socket.user.name);
-    });*/
 
 
 

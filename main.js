@@ -56,39 +56,28 @@ let io = socket(server);
 io.on('connection', (sock) => {
     console.log('User connected. SocketID ' + sock.id + ', IP ' + sock.handshake.address);
 
-    /*sock.on('login', data => {
-        console.log('login')
-        if(data.token == 'new'){
-            console.log('new user')
-            // Create new User and send it to the client
-
-            sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 6)], 'none', 'none', sock);
-            cached_users.set(sock.user.token, sock.user);
-
-            sock.emit('login', cached_users.get(data.token));
+    sock.on('login', data => {
+        if(cached_users.has(data)){
+            sock.user = cached_users.get(data);
+            sock.safeUser = Object.assign({}, cached_users.get(data));
+    
+            delete sock.safeUser.token;
+            delete sock.safeUser.lastSocket;
+            delete sock.safeUser.signUpAddress;
+    
+            io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
         }
-        else{
-            console.log('relogin')
-            if(cached_users.has(data.token)){
-                sock.emit('system', 'You have been logged in as ' + cached_users.get(data.token).name);
-                sock.emit('login', cached_users.get(data.token));
-                sock.user = cached_users.get(data.token);
-                cached_users.set(sock.user.token, sock.user);
-                io.emit('system', 'User online: <b>' + sock.user.name + '</b>');
-            }
-        }
-    });*/
-        sock.user = new chat.User(randoms.names[Math.round(Math.random() * (randoms.names.length - 1))], 'none', 'none', sock);
-        cached_users.set(sock.user.token, sock.user);
-        io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
+        else io.emit('alert', ['Your login failed.', 'That\'s all we know.']);
+    });
+
 
     sock.on('disconnect', () => {
-        io.emit('system', randoms.leaves[Math.round(Math.random() * (randoms.leaves.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
+        if(sock.user && cached_users.has(sock.user.token)) io.emit('system', randoms.leaves[Math.round(Math.random() * (randoms.leaves.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
     });
 
     sock.on('message', message => {
 
-        if(cached_users.has(sock.user.token) && cached_users.get(sock.user.token)){
+        if(sock.user && cached_users.has(sock.user.token) && cached_users.get(sock.user.token)){
     
             let user = cached_users.get(sock.user.token);
             if(user.ban != 'none') sock.emit('alert', [
@@ -104,7 +93,7 @@ io.on('connection', (sock) => {
                 'Your message must be less than 2000 characters.'
             ]);
             else {
-                let msg = new chat.Message(message.content, user, message.channel);
+                let msg = new chat.Message(message.content, sock.safeUser, message.channel);
 
                 // Preparation for chat commands
                 /*

@@ -58,10 +58,6 @@ class Message{
         this.author = author;
         this.channel = channel; // Channel Feature not implemented yet
 
-        delete this.author.token;
-        delete this.author.lastSocket;
-        delete this.author.signUpAddress;
-
         this.createdAt = Date.now();
     }
 }
