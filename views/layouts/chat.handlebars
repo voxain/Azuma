@@ -26,6 +26,7 @@
 <div class="channellist hidden" id="settings">
     <div class="settings-category" onclick="settings('account')" id="settings-account">Account<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <div class="settings-category" onclick="settings('appearance')" id="settings-appearance">Appearance<span class="mdi mdi-chevron-right settings-chevron"></span></div>
+    <div class="settings-category" onclick="settings('sound')" id="settings-sound">Sound<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <div class="settings-category" onclick="settings('info')" id="settings-info">Info<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <a href="/logout"><div class="settings-category">Logout<span class="mdi mdi-account-arrow-right-outline settings-chevron"></span></div></a>
 </div>
@@ -33,19 +34,38 @@
 <!--Settings popouts-->
 
 <div class="settings-popout" id="settings-account-popout">
-    <span class="settings-headline"><span class="mdi mdi-account-outline"> </span>Account</span><br>
+    <div class="form-header big color-title">
+        <span class="settings-headline"><span class="mdi mdi-account-outline"> </span>Account</span>
+    </div><br><br><br><br>
 </div>
 
 <div class="settings-popout" id="settings-appearance-popout">
-    <span class="settings-headline"><span class="mdi mdi-palette-outline"> </span>Appearance</span><br>
+    <div class="form-header big color-red">
+        <span class="settings-headline"><span class="mdi mdi-palette-outline"> </span>Appearance</span>
+    </div><br><br><br><br>
     <!--Yeah, it's simple. But works. xd-->
     <button class="button" onclick="$(document.body).toggleClass('invert')">Switch Theme</button>
 </div>
 
+<div class="settings-popout" id="settings-sound-popout">
+    <div class="form-header big color-blue">
+        <span class="settings-headline"><span class="mdi mdi-speaker"> </span>Sound</span>
+    </div><br><br><br><br>
+    <button class="button" onclick="new Audio('/resources/audio/message.mp3').play();"><span class="mdi mdi-volume-high"></span> Incoming message</button><br>
+    <button class="button" onclick="new Audio('/resources/audio/message_short.mp3').play();"><span class="mdi mdi-volume-high"></span> Short incoming message</button><br>
+    <button class="button" onclick="new Audio('/resources/audio/friend_request.mp3').play();"><span class="mdi mdi-volume-high"></span> New Friend request</button><br>
+</div>
+
 <div class="settings-popout" id="settings-info-popout">
-    <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Info</span><br>
+    <div class="form-header big color-blue">
+        <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Info</span>
+    </div><br><br><br><br>
     Azuma is being developed by shinixsensei and RMC Productions.<br><br>
-    The Notification sound "Job Done" is licensed under a CC-Attribution License. You can find it <a href="https://notificationsounds.com/notification-sounds/job-done-501">here.</a>
+    The Notification sounds are licensed under a CC-Attribution License. Find the sounds here:<br>
+    <a href="https://notificationsounds.com/notification-sounds/job-done-501">New message sound</a><br>
+    <a href="https://notificationsounds.com/notification-sounds/suppressed-437">Short new message sound</a><br>
+    <a href="https://notificationsounds.com/message-tones/youve-been-informed-345">New Friend request</a><br>
+
 </div>
 
 
@@ -69,21 +89,7 @@
 
 
 <script>
-    if(!window.localStorage.getItem('token')){
-        window.location.replace("/login");
-    }
-
-    let who_am_i = 'nobody';
-    api.request('user/token/' + window.localStorage.getItem('token'), d => {
-        let data = JSON.parse(d);
-        if(!data.success){
-            alert("You provided an invalid token. We will now redirect you to the login page.");
-            window.location.replace("/login");
-        }
-        else{
-            $('.header-information').append(document.createTextNode(data.data.name));
-        }
-    });
+   
 
     var socket = io();
 
@@ -99,7 +105,8 @@
         let colors = {
             alert: 'red',
             info: 'blue',
-            success: 'green'
+            success: 'green',
+            chat: 'blue'
         }
 
         if(!level) var level = 'alert';
@@ -118,6 +125,9 @@
             case 'success':
                 icon.innerHTML='<span class="alert-icon mdi mdi-check-circle-outline"></span>';
                 break;
+            case 'chat':
+                icon.innerHTML='<span class="alert-icon mdi mdi-message-outline"></span>';
+                break;
         }
         notify.append(icon);
 
@@ -128,7 +138,7 @@
 
         let text = document.createElement('div');
         text.classList = 'alert-text';
-        text.innerHTML = '<nobr>' + description + '</nobr>' || 'No description';
+        text.innerHTML =  description || 'No description';
         notify.append(text);
 
         let timer = document.createElement('div');
@@ -190,7 +200,7 @@
         let sys = document.createElement('div');
         sys.classList = 'message';
         sys.style.borderLeft = '4px solid #ccc';
-        sys.style.borderRadius = '0 5px 5px 0';
+        sys.style.borderRadius = '0 10px 10px 0';
         sys.innerHTML = al;
 
         last.author = '';
@@ -199,6 +209,46 @@
         document.getElementById('messages-container').append(sys);
         document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
     }
+
+    let channel_list = channels => {
+        channels.forEach(c => {
+            let channel = document.createElement('div');
+            channel.classList = 'channel';
+            channel.innerHTML = '#' + c.name;
+            channel.id = 'channel-' + c.id;
+
+            $('#channels').append(channel);
+        })
+    };
+
+     if(!window.localStorage.getItem('token')){
+        create_alert('You need to sign in with an account.', 'You will now be redirected to the login page.', 'alert')
+        setTimeout(() => window.location.replace("/login"), 4000);
+    }
+
+    let who_am_i = 'nobody';
+    api.request('user/token/' + window.localStorage.getItem('token'), d => {
+        let data = JSON.parse(d);
+        if(!data.success){
+            create_alert('You provided an invalid token.', 'You will now be redirected to the login page.', 'alert')
+            setTimeout(() => window.location.replace("/login"), 4000);
+        }
+        else{
+            $('.header-information').append(document.createTextNode(data.data.name));
+            who_am_i = data.data;
+        }
+    });
+
+    let channel_dir = new Map();
+    api.request('room/channels', c => {
+        let data = JSON.parse(c);
+        if(!data.success){
+            create_alert('Channel list couldn\'t be fetched.', 'Please try reloading the page. ' + data.message, 'alert')
+        }
+        else{
+            
+        }
+    });
 
 
     let missed = 0;
@@ -209,10 +259,10 @@
     });
     socket.on('message', msg => {
         if(!document.hasFocus()){
-            var audio = new Audio('/resources/audio/message.mp3');
-            audio.play();
+            new Audio('/resources/audio/message.mp3').play();
             missed += 1;
             document.title = `(${missed}) Azuma`;
+            create_alert(msg.author.name, msg.content, 'chat');
         }
         create_message(msg);
 
@@ -226,7 +276,7 @@
 
     socket.on('system', al => {
         create_banner(al);
-        create_alert('System', al, 'info');
+        //create_alert('System', al, 'info');
     });
 
     socket.on('disconnect', () => {
@@ -283,17 +333,4 @@
         $('.settings-popout').removeClass('unhide');
         $('#settings-' + name + '-popout').addClass('unhide');
     }
-
-
-
-    // LOGIN
-    
-/*
-    socket.emit('login', {
-        token: window.localStorage.getItem('token') || 'new'
-    });
-
-    socket.on('login', data => {
-        window.localStorage.setItem('token', data.token)
-    });*/
 </script>

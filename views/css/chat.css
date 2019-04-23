@@ -178,7 +178,7 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: .2s ease;
     background: white;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 20px;
     margin:8px;
     line-height:27px;
@@ -219,30 +219,29 @@
 
 .settings-popout{
     position: fixed;
-    height: 100%;
+    height: 70%;
     width: 30%;
-    top:0%;
+    top:15%;
     left:calc(-35% - 41px);
     padding-top:20px;
     padding-left:20px;
     padding-right:20px;
-    border-right: 1px solid #eee;
-    border-top: 1px solid #eee;
+    border-radius: 15px;
     z-index:85;
     overflow-y:scroll;
     background: white;
     transition: .3s ease;
-    box-shadow: 10px 0px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 7px 10px rgba(0,0,0,0.3);
     transition: .4s cubic-bezier(0, 1, .5, 1);
 }
 .settings-popout.unhide{
-    left:calc(15% + 41px);
+    left:35%;
 }
 .settings-popout::-webkit-scrollbar{
     display:none;
 }
 .settings-headline{
-    font-size:30px;
+    font-size:40px;
 }
 
 
@@ -270,7 +269,8 @@
     width:30%;
     top: 15px;
     left: 35%;
-    height: 60px;
+    min-height: 60px;
+    max-height: 140px;
     background: rgba(0,0,0,.6);
     box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
     animation: plop .3s cubic-bezier(0, 1.5, 0.85, 1);
@@ -284,8 +284,7 @@
 .alert-icon{
     font-size: 40px;
     line-height: 70px;
-    animation: attention .3s ease;
-    animation-delay: 1s;
+    /*animation: attention .3s ease .3s;*/
 }
 .alert-title{
     width: 100%;
@@ -293,11 +292,13 @@
 }
 .alert-left{
     height:calc(100% + 10px);
+    min-height: 100%;
     width: 80px;
-    margin-top: -10px;
     float:left;
+    margin-top: -10px;
     margin-right: 10px;
     text-align: center;
+    position: relative;
 }
 .alert-timer{
     position: absolute;
@@ -313,8 +314,8 @@
 }
 
 @keyframes plop{
-    0%{top: -100px;}
-    100%{top: 15px;}
+    0%{top: -100px;transform: scale(1.05)}
+    100%{top: 15px;transform: scale(1)}
 }
 @keyframes plopOut{
     100%{top: -100px;}
@@ -325,7 +326,7 @@
     100%{width: 0;}
 }
 @keyframes attention{
-    0%{transform: scale(1)}
-    50%{transform: scale(1.2)}
-    100%{transform: scale(1)}
+    0%{font-size: 40px}
+    50%{font-size: 45px}
+    100%{font-size: 40px}
 }

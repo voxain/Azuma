@@ -50,4 +50,8 @@ module.exports = app => {
     app.get('/api/user/token/', (req, res) => {
         res.send(JSON.stringify({success: false, message: 'You need to provide a token.'}));
     });
+
+    app.get('/api/room/channels', (req, res) => {
+        res.send(JSON.stringify({success: false, message: 'The channel system is not implemented yet.'}));
+    });
 };

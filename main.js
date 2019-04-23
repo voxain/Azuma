@@ -17,7 +17,11 @@ const randoms   = {
 // Caches Setup
 
 let cached_users = require('./cache_users.js');
+let cached_channels = require('./cache_channels.js');
+
 cached_users.set(config.adminToken, new chat.User('admin', 'admin', [['color', 'red'], ['verified', 'true'], ['token', config.adminToken]]));
+
+cached_channels.set(config.defaultChannel, new chat.Channel(config.defaultChannel));
 
 
 // Express initialization
@@ -62,7 +66,7 @@ io.on('connection', (sock) => {
             sock.emit('system', '<b>Welcome to the chat!</b><br>The server time is ' + new Date() + '.<br><del>Use <b>/help</b> in chat to see a list of chat commands.</del>');
             io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
         }
-        else io.emit('alert', ['Your login failed.', 'That\'s all we know.']);
+        else sock.emit('alert', ['Your login failed.', 'That\'s all we know.']);
     });
 
 
