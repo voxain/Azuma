@@ -20,7 +20,12 @@ body, html{
 a{
     text-decoration: none;
 }
-
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
 button:focus, input:focus, select:focus{
     outline: none;
 }
@@ -43,6 +48,14 @@ button:focus, input:focus, select:focus{
 .form-header.big{
     height: 100px;
     line-height: 100px;
+}
+.form-footer{
+    width: calc(100% - 40px);
+    height: auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
 }
 
 .button{
@@ -79,13 +92,13 @@ button:focus, input:focus, select:focus{
     background: linear-gradient(to right, #3494e6, #ec6ead) !important;
 }
 .color-red{
-    background: linear-gradient(to right, red, #ff0066) !important;
+    background: linear-gradient(to right, #e52d27, #b31217) !important;
 }
 .color-green{
-    background: linear-gradient(to right, #00ff00, #99ff00) !important;
+    background: linear-gradient(to right, #11998e, #38ef7d) !important;
 }
 .color-blue{
-    background: linear-gradient(to right, #0000ff, #0099ff) !important;
+    background: linear-gradient(to right, #1FA2FF, #12D8FA, #A6FFCB) !important;
 }
 
 

@@ -1,3 +1,5 @@
+body{background: black}
+
 .input{
     position: absolute;
     bottom: 20px;
@@ -13,7 +15,7 @@
     color: #222;
     transition: .3s ease;
     z-index:100;
-    background: white;
+    background: transparent;
 }
 
 
@@ -47,15 +49,13 @@
 .header{
     position: fixed;
     width: calc(15% + 0px);
-    height:6%;
-    top:3%;
+    height:calc(10% - 40px);
     background: white;
     z-index:110;
     color: #333;
-    padding-right: 20px;
-    left:20px;
-    border-right: 1px solid #eee;
-    border-bottom: 1px solid #eee;
+    padding: 20px;
+    left:0;
+    top:0;
 }
 .header-information{
     float:left;
@@ -77,14 +77,13 @@
 
 .channellist{
     position: fixed;
-    height: calc(88% - 20px);
+    height: calc(91% - 20px);
     width: 15%;
     top:9%;
     left:0;
     padding-top:20px;
     padding-left:20px;
     padding-right:20px;
-    border-right: 1px solid #eee;
     z-index:90;
     overflow-y:scroll;
     background: white;
@@ -115,6 +114,12 @@
 }
 #settings{
     overflow: visible;
+}
+.foot-centered{
+    position: absolute;
+    bottom: 0;
+    left:0;
+    text-align: center;
 }
 .settings-category{
     width:100%;
@@ -150,6 +155,11 @@
     padding-right:10px;
     border-right: 1px solid #eee;
     z-index:83;
+    background: white;
+    transition: .3s ease;
+}
+.chat-messages.darken{
+    opacity: .5
 }
 .scroll-container::-webkit-scrollbar{
     display: none;
@@ -177,7 +187,7 @@
     padding-right: 20px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: .2s ease;
-    background: white;
+    background: transparent;
     border-radius: 10px;
     font-size: 20px;
     margin:8px;
@@ -221,8 +231,9 @@
     position: fixed;
     height: 70%;
     width: 30%;
-    top:15%;
-    left:calc(-35% - 41px);
+    top:-100%;
+    transform: scale(.5);
+    left:35%;
     padding-top:20px;
     padding-left:20px;
     padding-right:20px;
@@ -232,10 +243,11 @@
     background: white;
     transition: .3s ease;
     box-shadow: 0 7px 10px rgba(0,0,0,0.3);
-    transition: .4s cubic-bezier(0, 1, .5, 1);
+    transition: .6s cubic-bezier(.5, 0, 0, 1);
 }
 .settings-popout.unhide{
-    left:35%;
+    top:15%;
+    transform: scale(1);
 }
 .settings-popout::-webkit-scrollbar{
     display:none;
