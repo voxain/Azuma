@@ -104,9 +104,17 @@ io.on('connection', (sock) => {
                  * /ban <user> <reason>: Bans the given user for the given reason.
                  * 
                  */
-                if(msg.content.startsWith('/')) return;
+                if(msg.content.startsWith('/')) {
+                    let invoke = msg.content.substr(1).split(' ')[0];
+                    switch(invoke){
+                        case('system'): 
+                            if(user.perms.announce || user.perms.admin) io.emit('system', msg.content.replace('/system ', ''));
+                            else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>announcer</b>.');
+                            break;
+                    }
+                }
 
-                io.emit('message', msg);
+                else io.emit('message', msg);
             }
         }
         else{

@@ -43,10 +43,6 @@ button:focus, input:focus, select:focus{
 .button:active{
     box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
 }
-img{
-    filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.4))
-}
-
 
 
 .code_block{
@@ -58,6 +54,18 @@ img{
 
 
 
+.color-title{
+    background: linear-gradient(to right, #3494e6, #ec6ead);
+}
+.color-red{
+    background: linear-gradient(to right, red, #ff0066);
+}
+.color-green{
+    background: linear-gradient(to right, #00ff00, #99ff00);
+}
+.color-blue{
+    background: linear-gradient(to right, #0000ff, #0099ff);
+}
 
 
 

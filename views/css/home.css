@@ -1,23 +1,23 @@
 body, html{
     text-align: center;
-    margin-top: 50px;
     perspective:500px;
     overflow:hidden;
 }
 
 .form-body{
-    margin-top: 50px;
+    margin-top: 150px;
     padding:20px;
     box-shadow: 0px 5px 10px rgba(0,0,0,0.1);
     width:20%;
     position: absolute;
     left: 40%;
-    border-radius: 5px;
+    border-radius: 10px;
     transition: .3s ease;
     animation: flipIn .3s ease;
     line-height: 25px;
     max-height:70%;
     overflow-y: scroll;
+    background: white;
 }
 .form-body::-webkit-scrollbar{
     display:none;
@@ -27,12 +27,47 @@ body, html{
     transform: rotateY(-180deg);
     display: none;
 }
+.form-header{
+    background: linear-gradient(to right, red, #ff0066);
+    position: absolute; 
+    width: 100%;
+    height: 70px;
+    top:0; 
+    left: 0;
+}
+.form-header.big{
+    height: 100px;
+}
+
+.color-title{
+    background: linear-gradient(to right, #3494e6, #ec6ead);
+}
+.color-red{
+    background: linear-gradient(to right, red, #ff0066);
+}
+.color-green{
+    background: linear-gradient(to right, #00ff00, #99ff00);
+}
+.color-blue{
+    background: linear-gradient(to right, #0000ff, #0099ff);
+}
+
 .form-input{
     margin-top:10px;
     width:100%;
+    text-align: center;
 }
 .form-logo{
     width:100%;
+    filter: drop-shadow(0px 5px 5px rgba(0,0,0,0.4))
+}
+.form-logo-small{
+    height:40px;
+    margin-top:15px;
+}
+.form-logo-big{
+    height:50px;
+    margin-top:25px;
 }
 .loading-dot{
     width:28px;

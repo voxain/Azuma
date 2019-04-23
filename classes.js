@@ -77,6 +77,7 @@ class UserPermissions{
     constructor(perms){
         this.ban = false;
         this.channels = false;
+        this.announce = false;
         this.admin = false;
 
         switch(perms){
@@ -86,6 +87,10 @@ class UserPermissions{
             case('moderator'): 
                 this.ban = true;
                 this.channels = true;
+                break;
+            case('announcer'): 
+                this.announce = true;
+                break;
         }
     }
 

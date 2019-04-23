@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="css/main.css" />
 <link rel="stylesheet" href="css/chat.css" />
+<link rel="stylesheet" href="css/themes/colors.css" />
 <link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.5.95/css/materialdesignicons.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
@@ -55,7 +56,7 @@
     </div>
     <div class="input h">
         <input placeholder="Write a message..." id="message" class="input messagebox">
-        <span class="mdi mdi-send send-icon" id="send"></span>
+        <span class="mdi mdi-send send-icon color-blue" id="send"></span>
     </div>
 </div>
 
@@ -90,6 +91,57 @@
     }
 
     socket.emit('login', window.localStorage.getItem('token'));
+
+    let create_alert = (title, description, level) => {
+
+        let colors = {
+            alert: 'red',
+            info: 'blue',
+            success: 'green'
+        }
+
+        if(!level) var level = 'alert';
+        let notify = document.createElement('div');
+        notify.classList = 'alert';
+
+        let icon = document.createElement('div');
+        icon.classList = 'alert-left color-' + colors[level];
+        switch(level){
+            case 'alert':
+                icon.innerHTML='<span class="alert-icon mdi mdi-alert-circle-outline"></span>';
+                break;
+            case 'info':
+                icon.innerHTML='<span class="alert-icon mdi mdi-information-outline"></span>';
+                break;
+            case 'success':
+                icon.innerHTML='<span class="alert-icon mdi mdi-check-circle-outline"></span>';
+                break;
+        }
+        notify.append(icon);
+
+        let headline = document.createElement('div');
+        headline.classList = 'alert-title';
+        headline.innerHTML = title || 'Untitled';
+        notify.append(headline);
+
+        let text = document.createElement('div');
+        text.classList = 'alert-text';
+        text.innerHTML = description || 'No description';
+        notify.append(text);
+
+        let timer = document.createElement('div');
+        timer.classList = 'alert-timer';
+        notify.append(timer);
+
+        document.body.append(notify);
+
+        setTimeout(() => {                     
+            notify.style.animation = 'plopOut .3s cubic-bezier(0.15, 0, 1, -0.5)';
+            setTimeout(() => {                     
+                document.body.removeChild(notify)
+            }, 290)
+        }, 3800)
+    };
 
     let create_message = msg => {
         // Header (Author/Time)
@@ -153,11 +205,12 @@
     });
 
     socket.on('alert', al => {
-        alert(al[0] + '\n\n' + al[1])
+        create_alert(al[0], al[1]);
     });
 
     socket.on('system', al => {
         create_banner(al);
+        create_alert('System', al, 'info');
     });
 
     socket.on('disconnect', () => {

@@ -44,6 +44,10 @@ module.exports = app => {
         if(cached_users.has(req.params.token)){
             res.send(JSON.stringify({success: true, data: cached_users.get(req.params.token)}));
         }
-        else res.send({success: false, message: 'Could not find user with this token.'});
+        else res.send(JSON.stringify({success: false, message: 'Could not find a user with this token.'}));
+    });
+
+    app.get('/api/user/token/', (req, res) => {
+        res.send(JSON.stringify({success: false, message: 'You need to provide a token.'}));
     });
 };
