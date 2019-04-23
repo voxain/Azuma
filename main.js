@@ -17,8 +17,7 @@ const randoms   = {
 // Caches Setup
 
 let cached_users = require('./cache_users.js');
-let default_user = require('./defaults/user.js');
-cached_users.set(default_user.token, default_user);
+cached_users.set(config.adminToken, new chat.User('admin', 'admin', [['color', 'red'], ['verified', 'true'], ['token', config.adminToken]]));
 
 
 // Express initialization
@@ -59,12 +58,8 @@ io.on('connection', (sock) => {
     sock.on('login', data => {
         if(cached_users.has(data)){
             sock.user = cached_users.get(data);
-            sock.safeUser = Object.assign({}, cached_users.get(data));
     
-            delete sock.safeUser.token;
-            delete sock.safeUser.lastSocket;
-            delete sock.safeUser.signUpAddress;
-    
+            sock.emit('system', '<b>Welcome to the chat!</b><br>The server time is ' + new Date() + '.<br><del>Use <b>/help</b> in chat to see a list of chat commands.</del>');
             io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
         }
         else io.emit('alert', ['Your login failed.', 'That\'s all we know.']);
@@ -93,23 +88,39 @@ io.on('connection', (sock) => {
                 'Your message must be less than 2000 characters.'
             ]);
             else {
-                let msg = new chat.Message(message.content, sock.safeUser, message.channel);
+                let safeUser = Object.assign({}, sock.user);
+        
+                delete safeUser.token;
+                delete safeUser.lastSocket;
+                delete safeUser.signUpAddress;
+                let msg = new chat.Message(message.content, safeUser, message.channel);
 
                 // Preparation for chat commands
                 /*
-                 * Planned commands:
+                 * Implemented Commands:
                  * /system <message>: Sends a join/leave-like message banner
-                 * /eval <code>: Evals JavaScript code from the chat
                  * /color <user> <color>: Applies the given color to the given user.
+                 *
+                 * Planned commands:
+                 * /eval <code>: Evals JavaScript code from the chat
                  * /ban <user> <reason>: Bans the given user for the given reason.
                  * 
                  */
                 if(msg.content.startsWith('/')) {
                     let invoke = msg.content.substr(1).split(' ')[0];
+                    let args = msg.content.substr(1).split(' ');
+                    args.shift()
                     switch(invoke){
                         case('system'): 
                             if(user.perms.announce || user.perms.admin) io.emit('system', msg.content.replace('/system ', ''));
                             else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>announcer</b>.');
+                            break;
+                        case('color'): 
+                            if(user.perms.channels || user.perms.admin){
+                                cached_users.filter(u => u.name == args[0]).prop('color', args[1]);
+                                sock.emit('system', `${args[0]} now has the color <span style="color: ${args[1]}">${args[1]}</span>`);
+                            }
+                            else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>channel manager</b>.');
                             break;
                     }
                 }

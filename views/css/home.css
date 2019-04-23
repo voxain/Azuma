@@ -39,18 +39,6 @@ body, html{
     height: 100px;
 }
 
-.color-title{
-    background: linear-gradient(to right, #3494e6, #ec6ead);
-}
-.color-red{
-    background: linear-gradient(to right, red, #ff0066);
-}
-.color-green{
-    background: linear-gradient(to right, #00ff00, #99ff00);
-}
-.color-blue{
-    background: linear-gradient(to right, #0000ff, #0099ff);
-}
 
 .form-input{
     margin-top:10px;

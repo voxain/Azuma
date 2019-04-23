@@ -5,6 +5,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/REST.js"></script>
+<title>Azuma</title>
 
 
 <div class="header">
@@ -43,7 +44,8 @@
 
 <div class="settings-popout" id="settings-info-popout">
     <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Info</span><br>
-    Azuma is being developed by shinixsensei and RMC Productions.
+    Azuma is being developed by shinixsensei and RMC Productions.<br><br>
+    The Notification sound "Job Done" is licensed under a CC-Attribution License. You can find it <a href="https://notificationsounds.com/notification-sounds/job-done-501">here.</a>
 </div>
 
 
@@ -126,7 +128,7 @@
 
         let text = document.createElement('div');
         text.classList = 'alert-text';
-        text.innerHTML = description || 'No description';
+        text.innerHTML = '<nobr>' + description + '</nobr>' || 'No description';
         notify.append(text);
 
         let timer = document.createElement('div');
@@ -191,13 +193,27 @@
         sys.style.borderRadius = '0 5px 5px 0';
         sys.innerHTML = al;
 
+        last.author = '';
+        last.id = '';
+
         document.getElementById('messages-container').append(sys);
         document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
     }
 
-    // TODO: Receive the User information and save the token in local storage to re-authenticate the user on connection loss or re-login
 
+    let missed = 0;
+    $(window).on('focus', () => {
+        missed = 0;
+        document.title = `Azuma`;
+        $('#message').focus();
+    });
     socket.on('message', msg => {
+        if(!document.hasFocus()){
+            var audio = new Audio('/resources/audio/message.mp3');
+            audio.play();
+            missed += 1;
+            document.title = `(${missed}) Azuma`;
+        }
         create_message(msg);
 
         // Scroll down so the user can see the new message

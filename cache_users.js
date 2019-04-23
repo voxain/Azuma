@@ -2,8 +2,6 @@
 
 let cached_users = new Map();
 
-cached_users.set('DEFAULT', require('./defaults/user.js'));
-
 
 module.exports = {
     set(id, data) {
@@ -14,6 +12,12 @@ module.exports = {
     },
     has(id) {
         return cached_users.has(id);
+    },
+    filter(f) {
+        for (const [key, val] of cached_users) {
+            if (f(val)) return val;
+        }
+        return null;
     },
     get(id) {
         return cached_users.get(id);
