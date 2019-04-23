@@ -7,13 +7,21 @@ const socket    = require('socket.io');
 
 const chat      = require('./classes.js');
 const config    = require('./server-config.json');
+const randoms   = {
+    names   : require('./defaults/randomNames.js'),
+    joins   : require('./defaults/joinMessages.js'),
+    leaves  : require('./defaults/leaveMessages.js')
+};
 
 
 // Caches Setup
 
-let cached_users = new Map();
+let cached_users = require('./cache_users.js');
+let cached_channels = require('./cache_channels.js');
 
-cached_users.set('DEFAULT', require('./defaults/user.js'));
+cached_users.set(config.adminToken, new chat.User('admin', 'admin', [['color', 'red'], ['verified', 'true'], ['token', config.adminToken]]));
+
+cached_channels.set(config.defaultChannel, new chat.Channel(config.defaultChannel));
 
 
 // Express initialization
@@ -24,6 +32,7 @@ app.engine('handlebars', hbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 app.use('/resources', express.static(__dirname + '/views/resources'));
 app.use('/css', express.static(__dirname + '/views/css'));
+app.use('/js', express.static(__dirname + '/views/js'));
 
 
 // Webserver initialization
@@ -50,43 +59,26 @@ let io = socket(server);
 io.on('connection', (sock) => {
     console.log('User connected. SocketID ' + sock.id + ', IP ' + sock.handshake.address);
 
-    /*sock.on('login', data => {
-        console.log('login')
-        if(data.token == 'new'){
-            console.log('new user')
-            // Create new User and send it to the client
-
-            sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 6)], 'none', 'none', sock);
-            cached_users.set(sock.user.token, sock.user);
-
-            sock.emit('login', cached_users.get(data.token));
+    sock.on('login', data => {
+        if(cached_users.has(data)){
+            sock.user = cached_users.get(data);
+    
+            sock.emit('system', '<b>Welcome to the chat!</b><br>The server time is ' + new Date() + '.<br><del>Use <b>/help</b> in chat to see a list of chat commands.</del>');
+            io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
         }
-        else{
-            console.log('relogin')
-            if(cached_users.has(data.token)){
-                sock.emit('system', 'You have been logged in as ' + cached_users.get(data.token).name);
-                sock.emit('login', cached_users.get(data.token));
-                sock.user = cached_users.get(data.token);
-                cached_users.set(sock.user.token, sock.user);
-                io.emit('system', 'User online: <b>' + sock.user.name + '</b>');
-            }
-        }
-    });*/
-        sock.user = new chat.User(require('./randomNames.js')[Math.round(Math.random() * 6)], 'none', 'none', sock);
-        cached_users.set(sock.id, sock.user);
-        io.emit('system', 'New user: <b>' + sock.user.name + '</b>');
+        else sock.emit('alert', ['Your login failed.', 'That\'s all we know.']);
+    });
+
 
     sock.on('disconnect', () => {
-        io.emit('system', 'User left: <b>' + sock.user + '</b>');
+        if(sock.user && cached_users.has(sock.user.token)) io.emit('system', randoms.leaves[Math.round(Math.random() * (randoms.leaves.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
     });
 
     sock.on('message', message => {
-        // Send message to other clients
-        
 
-        if(cached_users.has(sock.id) && cached_users.get(sock.id)){
+        if(sock.user && cached_users.has(sock.user.token) && cached_users.get(sock.user.token)){
     
-            let user = cached_users.get(sock.id);
+            let user = cached_users.get(sock.user.token);
             if(user.ban != 'none') sock.emit('alert', [
                 'You were banned from the chatroom.', 
                 'By: ' + user.ban.executor.name + '\nReason: ' + user.ban.reason
@@ -100,8 +92,44 @@ io.on('connection', (sock) => {
                 'Your message must be less than 2000 characters.'
             ]);
             else {
-                let msg = new chat.Message(message.content, user, message.channel);
-                io.emit('message', msg);
+                let safeUser = Object.assign({}, sock.user);
+        
+                delete safeUser.token;
+                delete safeUser.lastSocket;
+                delete safeUser.signUpAddress;
+                let msg = new chat.Message(message.content, safeUser, message.channel);
+
+                // Preparation for chat commands
+                /*
+                 * Implemented Commands:
+                 * /system <message>: Sends a join/leave-like message banner
+                 * /color <user> <color>: Applies the given color to the given user.
+                 *
+                 * Planned commands:
+                 * /eval <code>: Evals JavaScript code from the chat
+                 * /ban <user> <reason>: Bans the given user for the given reason.
+                 * 
+                 */
+                if(msg.content.startsWith('/')) {
+                    let invoke = msg.content.substr(1).split(' ')[0];
+                    let args = msg.content.substr(1).split(' ');
+                    args.shift()
+                    switch(invoke){
+                        case('system'): 
+                            if(user.perms.announce || user.perms.admin) io.emit('system', msg.content.replace('/system ', ''));
+                            else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>announcer</b>.');
+                            break;
+                        case('color'): 
+                            if(user.perms.channels || user.perms.admin){
+                                cached_users.filter(u => u.name == args[0]).prop('color', args[1]);
+                                sock.emit('system', `${args[0]} now has the color <span style="color: ${args[1]}">${args[1]}</span>`);
+                            }
+                            else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>channel manager</b>.');
+                            break;
+                    }
+                }
+
+                else io.emit('message', msg);
             }
         }
         else{

@@ -1,3 +1,5 @@
 {
-    "port": 3850
+	"port": 3850,
+	"adminToken": "123456",
+	"defaultChannel": "general"
 }

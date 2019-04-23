@@ -1,12 +1,25 @@
 <link rel="stylesheet" href="css/main.css" />
 <link rel="stylesheet" href="css/home.css" />
 
+<script>
+    window.localStorage.removeItem('token');
+</script>
 
-<center>
-    <img src="resources/graphics/Azuma-Logo-gradient.svg">
-    <br><br>
-    You have been logged out.
-</center>
+<div class="form-body" id="form-login">
+    <center>
+        <div class="form-header big color-blue">
+            <img src="resources/graphics/Azuma-Logo-white.svg" class="form-logo-big">
+        </div>
+        <br><br><br><br>
+        You have been logged out.<br><br>
+        <a href="/">
+            <button class="button form-input">Back to the home page</button>
+        </a>
+        <a href="/login">
+            <button class="button form-input">Sign Up or log in</button>
+        </a>
+    </center>
+</div>
 
 <div class="footer">
     Azuma v0.0.1a

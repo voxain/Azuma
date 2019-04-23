@@ -6,8 +6,9 @@
     left:3%;
     padding:8px;
     padding-left:13px;
-    padding-right:13px;
-    border-radius:5px;
+    padding-right:0;
+    border-radius:10px;
+    overflow:hidden;
     font-size:17px;
     color: #222;
     transition: .3s ease;
@@ -20,23 +21,26 @@
 
 .input.h:hover{
     cursor: pointer; 
-    box-shadow: 0px 3px 10px rgba(0,0,0,0.2);
+    box-shadow: 0px 7px 10px rgba(0,0,0,0.2);
 }
 .input.h:focus{
-    box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
+    box-shadow: 0px 7px 10px rgba(0,0,0,0.3);
 }
 
 .input.messagebox{
-    width: calc(100% - 40px);
+    width: calc(100% - 56px);
     position: static;
     float:left;
 }
 .send-icon{
-    width:40px;
-    height:40px;
-    font-size:25px;
-    line-height:40px;
+    width:56px;
+    height:56px;
+    margin-top:-8px;
+    font-size:27px;
+    text-align: center;
+    line-height:56px;
     float:right;
+    color:white;
 }
 
 
@@ -152,7 +156,7 @@
 }
 .scroll-container{
     position: fixed;
-    height: 92%;
+    height: calc(100% - 80px);
     width: calc(85% - 60px);
     top:0;
     right:0;
@@ -174,10 +178,19 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: .2s ease;
     background: white;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 20px;
     margin:8px;
     line-height:27px;
+    animation: slideInLeft .2s ease;
+}
+@keyframes slideInLeft{
+    0%{transform:translateX(-10px); opacity: 0;}
+    100%{transform:translateX(0); opacity: 1;}
+}
+@keyframes fadeIn{
+    0%{opacity: 0;}
+    100%{opacity: 1;}
 }
 .message:hover{
     box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
@@ -199,35 +212,36 @@
 .message-content{
     color:#222;
     width:auto;
+    animation: fadeIn .2s ease;
 }
 
 
 
 .settings-popout{
     position: fixed;
-    height: 100%;
+    height: 70%;
     width: 30%;
-    top:0%;
+    top:15%;
     left:calc(-35% - 41px);
     padding-top:20px;
     padding-left:20px;
     padding-right:20px;
-    border-right: 1px solid #eee;
-    border-top: 1px solid #eee;
+    border-radius: 15px;
     z-index:85;
     overflow-y:scroll;
     background: white;
     transition: .3s ease;
-    box-shadow: 10px 0px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 7px 10px rgba(0,0,0,0.3);
+    transition: .4s cubic-bezier(0, 1, .5, 1);
 }
 .settings-popout.unhide{
-    left:calc(15% + 41px);
+    left:35%;
 }
 .settings-popout::-webkit-scrollbar{
     display:none;
 }
 .settings-headline{
-    font-size:30px;
+    font-size:40px;
 }
 
 
@@ -247,4 +261,72 @@
 }
 #disconnection-warning.unhide{
     top:0;
+}
+
+.alert{
+    z-index: 300;
+    position: fixed; 
+    width:30%;
+    top: 15px;
+    left: 35%;
+    min-height: 60px;
+    max-height: 140px;
+    background: rgba(0,0,0,.6);
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
+    animation: plop .3s cubic-bezier(0, 1.5, 0.85, 1);
+    overflow: hidden;
+    border-radius: 15px;
+    color:white;
+    padding-top:10px;
+    font-size: 19px;
+    line-height: 27px;
+}
+.alert-icon{
+    font-size: 40px;
+    line-height: 70px;
+    /*animation: attention .3s ease .3s;*/
+}
+.alert-title{
+    width: 100%;
+    font-weight: bold;
+}
+.alert-left{
+    height:calc(100% + 10px);
+    min-height: 100%;
+    width: 80px;
+    float:left;
+    margin-top: -10px;
+    margin-right: 10px;
+    text-align: center;
+    position: relative;
+}
+.alert-timer{
+    position: absolute;
+    width:0;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.8);
+    left:0;
+    bottom: 0;
+    animation: alertTimer 4s linear;
+}
+.scroller{
+    width: calc(100% - 91px);
+}
+
+@keyframes plop{
+    0%{top: -100px;transform: scale(1.05)}
+    100%{top: 15px;transform: scale(1)}
+}
+@keyframes plopOut{
+    100%{top: -100px;}
+    0%{top: 15px;}
+}
+@keyframes alertTimer{
+    0%{width:100%;}
+    100%{width: 0;}
+}
+@keyframes attention{
+    0%{font-size: 40px}
+    50%{font-size: 45px}
+    100%{font-size: 40px}
 }
