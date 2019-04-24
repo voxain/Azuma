@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="200"
+   height="200"
+   viewBox="0 0 52.916665 52.916668"
+   version="1.1"
+   id="svg1452"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="azuma-4.svg">
+  <defs
+     id="defs1446" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4.23"
+     inkscape:cx="99.999997"
+     inkscape:cy="100.00001"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     borderlayer="false"
+     units="px"
+     inkscape:window-width="1920"
+     inkscape:window-height="1057"
+     inkscape:window-x="1912"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata1449">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-244.08332)">
+    <g
+       transform="matrix(0.81395352,0,0,0.81395352,-49.07098,76.667303)"
+       id="g2019">
+      <circle
+         style="opacity:1;fill:#f2f2f2;fill-opacity:1;stroke:none;stroke-width:1.58799994;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         id="circle1436"
+         cx="92.793152"
+         cy="238.18848"
+         r="32.505951" />
+      <path
+         inkscape:connector-curvature="0"
+         d="m 102.64765,241.47896 c 0,-0.37314 -0.3053,-0.64453 -0.67846,-0.64453 h -2.238884 l -4.138552,-16.58813 -0.03391,-0.16961 c -0.101774,-0.23746 -0.339228,-0.40707 -0.610607,-0.40707 h -4.443865 c -0.271379,0 -0.508837,0.16961 -0.610604,0.40707 l -0.03393,0.20353 -6.886277,27.5112 c 0,0.0339 0,0.0679 -0.03393,0.0679 v 0.13573 c 0,0.40705 0.305302,0.71236 0.644529,0.71236 h 4.104628 c 0.27138,0 0.542761,-0.20354 0.610606,-0.4749 0,-0.0339 0.03391,-0.0679 0.03391,-0.0679 l 1.492595,-6.07215 h 5.800757 l 1.492592,6.03822 0.03393,0.10171 c 0.101773,0.27139 0.339227,0.47492 0.610607,0.47492 h 4.104625 c 0.37315,0 0.64453,-0.30531 0.64453,-0.71238 v -0.0679 l -0.0339,-0.16962 -1.42476,-5.66506 h 0.91591 c 0.37315,0 0.67846,-0.2714 0.67846,-0.64453 z m -11.499751,-0.64453 1.59436,-6.27568 1.560438,6.27568 z"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:FARRAY;-inkscape-font-specification:FARRAY;letter-spacing:0px;word-spacing:0px;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:0.84806383"
+         id="path1438" />
+    </g>
+  </g>
+</svg>

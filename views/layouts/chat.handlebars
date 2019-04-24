@@ -16,15 +16,40 @@
     </div>
     <div class="settings-icon">
         <span class="mdi mdi-settings"></span>
-    </div>
+    </div> 
+    <div class="online-icon">
+        <span class="mdi mdi-account"></span>
+    </div> 
 </div>
 
 <div class="channellist" id="channels">
-    <div class="channel">#general</div>
-    <div class="channel">#memes</div>
+    <div class="channel"><span class="mdi mdi-bullhorn-outline"></span> announcements</div><br>
+    <div class="channel active"><span class="mdi mdi-pound"></span> general</div>
+    <div class="channel"><span class="mdi mdi-pound"></span> memes</div>
+    <div class="channel"><span class="mdi mdi-lock-outline"></span> test</div>
+</div>
+
+<div class="channellist hidden" id="online">
+    <span class="settings-headline" style="color: #444"><span class="mdi mdi-account-outline"> </span>Users</span><br><br>
+    YOU
+    <div class="online-user">
+        <img class="online-user-avatar" src="/resources/graphics/avatars/azuma-3.svg"> <span id="user-online-you-name"></span>
+    </div><br>
+
+    ONLINE | 2
+    <div class="online-user">
+        <img class="online-user-avatar" src="/resources/graphics/avatars/azuma-4.svg"> test
+    </div>
+    <div class="online-user">
+        <img class="online-user-avatar" src="/resources/graphics/avatars/azuma-2.svg"> test2
+    </div>
+    <div class="foot-centered">
+        Azuma v0.0.1a
+    </div>
 </div>
 
 <div class="channellist hidden" id="settings">
+    <span class="settings-headline" style="color: #333"><span class="mdi mdi-settings-outline"> </span>Settings</span>
     <div class="settings-category" onclick="settings('account')" id="settings-account">Account<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <div class="settings-category" onclick="settings('appearance')" id="settings-appearance">Appearance<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <div class="settings-category" onclick="settings('sound')" id="settings-sound">Sound<span class="mdi mdi-chevron-right settings-chevron"></span></div>
@@ -41,18 +66,50 @@
     <div class="form-header big color-title">
         <span class="settings-headline"><span class="mdi mdi-account-outline"> </span>Account</span>
     </div><br><br><br><br>
+    <div class="account-head">
+        <img class="account-head-avatar" src="/resources/graphics/avatars/azuma-3.svg">
+        <span class="account-head-name"><span class="mdi mdi-check-decagram"></span> admin</span><br>
+        <button class="button">Change avatar</button>
+        <select class="button">
+            <option>Online</option>
+            <option>Away</option>
+            <option>Do not disturb</option>
+            <option>Offline (Hidden)</option>
+        </select>
+    </div>
 </div>
 
 <div class="settings-popout" id="settings-appearance-popout">
     <div class="form-header big color-red">
         <span class="settings-headline"><span class="mdi mdi-palette-outline"> </span>Appearance</span>
     </div><br><br><br><br>
-    Choose a theme<br>
-    <select class="button" id="theme-switcher">
-        <option value="default" selected>Default</option>
-        <option value="dark">Dark</option>
-        <option value="custom" disabled>Custom...</option>
-    </select><br><br>
+
+    <!--What? I should use flexbox? Yeah, I should, but who cares? :tramp:-->
+    <table style="width: 100%;table-layout: fixed ;">
+        <tr>
+            <td>
+
+                Choose a theme<br>
+                <select class="button" id="theme-switcher">
+                    <option value="default" selected>Default</option>
+                    <option value="dark">Dark</option>
+                    <option value="custom" disabled>Custom...</option>
+                </select>
+
+            </td>
+            <td>
+
+                Font<br>
+                <select class="button" value="Hind" id="font-switcher">
+                    <option value="Abel" style="font-family: Abel">Abel</option>
+                    <option value="Archivo Narrow" style="font-family: Archivo Narrow">Archivo Narrow</option>
+                    <option value="Hind" selected style="font-family: Hind">Hind</option>
+                    <option value="Rajdhani" style="font-family: Rajdhani">Rajdhani</option>
+                </select>
+
+            </td>
+        </tr>
+    </table>
     <!--Yeah, it's simple. But works. xd-->
     <button class="button" onclick="$(document.body).toggleClass('invert')">Invert colors</button><br><br>
 </div>
@@ -137,6 +194,7 @@
         }
         else{
             $('.header-information').append(document.createTextNode(data.data.name));
+            $('#user-online-you-name').append(document.createTextNode(data.data.name));
             who_am_i = data.data;
         }
     });
@@ -220,22 +278,44 @@
             document.getElementById('css-theme').href = `/css/themes/${ $('#theme-switcher').val() }.css`
     })
 
+    $('#font-switcher').on('change', e => {
+        $('body, html, button, input, textarea, select').css('font-family', $('#font-switcher').val());
+    })
+
     $('.message').on('mousedown', e => {
         if(e.which == 3){
             // TODO: Show context menu
         }
     });
 
+    $('.chat-messages').on('click', e => {
+        $('.chat-messages').removeClass('darken');
+        $('#settings').addClass('hidden');
+        $('.settings-popout').removeClass('unhide');
+        $('.settings-category').removeClass('sel');
+    });
+
     $('.settings-icon').on('click', e => {
+        $('#online').addClass('hidden');
         $('.chat-messages').removeClass('darken');
         $('#settings').toggleClass('hidden');
-        $('.settings-category').css('border-right', 'none');
         $('.settings-popout').removeClass('unhide');
+        $('.settings-category').removeClass('sel');
     });
 
     function settings(name){
         $('.chat-messages').addClass('darken');
         $('.settings-popout').removeClass('unhide');
         $('#settings-' + name + '-popout').addClass('unhide');
+
+        $('.settings-category').removeClass('sel');
+        $('#settings-' + name).addClass('sel');
     }
+
+    
+
+    $('.online-icon').on('click', e => {
+        $('#settings').addClass('hidden');
+        $('#online').toggleClass('hidden');
+    });
 </script>
