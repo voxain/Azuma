@@ -37,11 +37,8 @@
     </div><br>
 
     ONLINE | 2
-    <div class="online-user">
-        <img class="online-user-avatar" src="/resources/graphics/avatars/azuma-4.svg"> test
-    </div>
-    <div class="online-user">
-        <img class="online-user-avatar" src="/resources/graphics/avatars/azuma-2.svg"> test2
+    <div id="online-users">
+
     </div>
     <div class="foot-centered">
         Azuma v0.0.1a
@@ -196,6 +193,26 @@
             $('.header-information').append(document.createTextNode(data.data.name));
             $('#user-online-you-name').append(document.createTextNode(data.data.name));
             who_am_i = data.data;
+
+            api.request('room/users', userArray => {
+                let result = JSON.parse(userArray);
+
+                result.data.forEach(acc => {
+                    if(acc.status != 'online') return;
+                    let userList = document.createElement('div');
+                    userList.classList = 'online-user';
+                    userList.id = 'online-user-' + acc.id;
+
+                    let avatar = document.createElement('img');
+                    avatar.src = '/resources/graphics/avatars/azuma-3.svg';
+                    avatar.classList = 'online-user-avatar';
+
+                    userList.append(avatar);
+                    userList.append(document.createTextNode(acc.name));
+
+                    $('#online-users').append(userList);
+                });
+            });
         }
     });
 

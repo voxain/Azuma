@@ -54,4 +54,19 @@ module.exports = app => {
     app.get('/api/room/channels', (req, res) => {
         res.send(JSON.stringify({success: false, message: 'The channel system is not implemented yet.'}));
     });
+
+    app.get('/api/room/users', (req, res) => {
+        let safeDir = [];
+        cached_users.get_cache().forEach(u => {
+            let us = Object.assign({}, u);
+
+            delete us.token;
+            delete us.lastSocket;
+            delete us.signUpAddress;
+
+            safeDir.push(u);
+        });
+
+        res.send(JSON.stringify({success: true, data: safeDir}));
+    });
 };
