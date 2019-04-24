@@ -97,6 +97,9 @@
             <!--Messages are appended here-->
         </div>
     </div>
+    <div class="commands-popout">
+        TEST TEXT .a.a.a.a.a.a.a.a..a.a.a
+    </div>
     <div class="input h">
         <input placeholder="Write a message..." id="message" class="input messagebox">
         <span class="mdi mdi-send send-icon color-blue" id="send"></span>
@@ -207,6 +210,9 @@
     };
 
     $('#message').on('keypress', e => {
+        if($('#message').val().startsWith('/')){
+            $('.commands-popout').addClass('unhide');
+        }
         if(e.which == 13){
             send_message();
         }
