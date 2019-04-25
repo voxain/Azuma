@@ -1,8 +1,12 @@
 <link rel="stylesheet" href="css/main.css" />
 <link rel="stylesheet" href="css/chat.css" />
+<link rel="stylesheet" id="css-theme" href="css/themes/default.css" />
 <link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.5.95/css/materialdesignicons.min.css" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
+<script src="js/REST.js"></script>
+<script src="js/UIActions.js"></script>
+<title>Azuma</title>
 
 
 <div class="header">
@@ -23,25 +27,66 @@
 <div class="channellist hidden" id="settings">
     <div class="settings-category" onclick="settings('account')" id="settings-account">Account<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <div class="settings-category" onclick="settings('appearance')" id="settings-appearance">Appearance<span class="mdi mdi-chevron-right settings-chevron"></span></div>
+    <div class="settings-category" onclick="settings('sound')" id="settings-sound">Sound<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <div class="settings-category" onclick="settings('info')" id="settings-info">Info<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <a href="/logout"><div class="settings-category">Logout<span class="mdi mdi-account-arrow-right-outline settings-chevron"></span></div></a>
+    <div class="foot-centered">
+        Azuma v0.0.1a
+    </div>
 </div>
 
 <!--Settings popouts-->
 
 <div class="settings-popout" id="settings-account-popout">
-    <span class="settings-headline"><span class="mdi mdi-account-outline"> </span>Account</span><br>
+    <div class="form-header big color-title">
+        <span class="settings-headline"><span class="mdi mdi-account-outline"> </span>Account</span>
+    </div><br><br><br><br>
 </div>
 
 <div class="settings-popout" id="settings-appearance-popout">
-    <span class="settings-headline"><span class="mdi mdi-palette-outline"> </span>Appearance</span><br>
+    <div class="form-header big color-red">
+        <span class="settings-headline"><span class="mdi mdi-palette-outline"> </span>Appearance</span>
+    </div><br><br><br><br>
+    Choose a theme<br>
+    <select class="button" id="theme-switcher">
+        <option value="default" selected>Default</option>
+        <option value="dark">Dark</option>
+        <option value="custom" disabled>Custom...</option>
+    </select><br><br>
     <!--Yeah, it's simple. But works. xd-->
-    <button class="button" onclick="$(document.body).toggleClass('invert')">Switch Theme</button>
+    <button class="button" onclick="$(document.body).toggleClass('invert')">Invert colors</button><br><br>
+</div>
+
+<div class="settings-popout" id="settings-sound-popout">
+    <div class="form-header big color-green">
+        <span class="settings-headline"><span class="mdi mdi-speaker"> </span>Sound</span>
+    </div><br><br><br><br>
+    <span style="color: #bbb">Problems with surround sound audio systems are known. We're working on a fix.</span><br>
+    <button class="button" style="padding-left: 10px" onclick="new Audio('/resources/audio/message.mp3').play();"><span class="mdi mdi-volume-high"></span> Incoming message</button><br>
+    <button class="button" style="padding-left: 10px" onclick="new Audio('/resources/audio/message_short.mp3').play();"><span class="mdi mdi-volume-high"></span> Short incoming message</button><br>
+    <button class="button" style="padding-left: 10px" onclick="new Audio('/resources/audio/friend_request.mp3').play();"><span class="mdi mdi-volume-high"></span> New Friend request</button><br>
 </div>
 
 <div class="settings-popout" id="settings-info-popout">
-    <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Info</span><br>
-    Azuma is being developed by shinixsensei and RMC Productions.
+    <div class="form-header big color-blue">
+        <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Info</span>
+    </div><br><br><br><br>
+    Azuma is being developed by shinixsensei and RMC Productions.<br><br>
+    You're using an alpha version which is in active development. Be aware of bugs and errors.<br>
+    If you find any bugs, we'd appreciate if you opened an issue on GitHub.<br><br>
+    The Notification sounds are licensed under a CC-Attribution License. Find the sounds here:<br>
+    <a href="https://notificationsounds.com/notification-sounds/job-done-501">New message sound</a><br>
+    <a href="https://notificationsounds.com/notification-sounds/suppressed-437">Short new message sound</a><br>
+    <a href="https://notificationsounds.com/message-tones/youve-been-informed-345">New Friend request</a><br>
+
+    <div class="form-footer">
+        <a href="https://github.com/rmcproductions/Azuma">
+            <button class="button form-input">View on GitHub</button>
+        </a>
+        <a href="https://github.com/rmcproductions/Azuma/issues/new">
+            <button class="button form-input">Report a bug</button>
+        </a>
+    </div>
 </div>
 
 
@@ -52,19 +97,24 @@
             <!--Messages are appended here-->
         </div>
     </div>
+    <div class="commands-popout">
+        TEST TEXT .a.a.a.a.a.a.a.a..a.a.a
+    </div>
     <div class="input h">
         <input placeholder="Write a message..." id="message" class="input messagebox">
-        <span class="mdi mdi-send send-icon" id="send"></span>
+        <span class="mdi mdi-send send-icon color-blue" id="send"></span>
     </div>
 </div>
 
 <div id="disconnection-warning">
-    You have been disconnected from the chat. Please be patient.
+    <span class="mdi mdi-close-network-outline"></span>You have been disconnected from the chat. Please be patient.
 </div>
 
 
 
 <script>
+   
+
     var socket = io();
 
     let last = {
@@ -72,59 +122,53 @@
         id: ''
     }
 
-    let create_message = msg => {
-        // Header (Author/Time)
-        let header = document.createElement('div');
+    socket.emit('login', window.localStorage.getItem('token'));
 
-        let author = document.createElement('span');
-        author.classList = 'message-author';
-        author.append(document.createTextNode(msg.author.name + ' '));
+    
 
-        let time = document.createElement('span');
-        time.classList = 'message-time';
-        time.innerHTML = new Date(Date(message.createdAt).toString()).toUTCString();
-
-        header.append(author);
-        header.append(time);
-
-        // Content
-        let content = document.createElement('span');
-        content.classList = 'message-content';
-        content.append(document.createTextNode(msg.content));
-
-
-        // Message
-        if(last.author.id == msg.author.id){
-            document.getElementById('message-' + last.id).append(document.createElement('br'));
-            document.getElementById('message-' + last.id).append(content);
-        }
-        else{
-            let message = document.createElement('div');
-            message.classList = 'message';
-            message.append(header);
-            message.append(content);
-
-            message.id = 'message-' + msg.id;
-            last.id = msg.id;
-            document.getElementById('messages-container').append(message);
-        }
-        last.author = msg.author;
-
-    };
-
-    let create_banner = al => {
-        let sys = document.createElement('div');
-        sys.classList = 'message';
-        sys.style.textAlign = 'center';
-        sys.innerHTML = al;
-
-        document.getElementById('messages-container').append(sys);
-        document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
+     if(!window.localStorage.getItem('token')){
+        create_alert('You need to sign in with an account.', 'You will now be redirected to the login page.', 'alert')
+        setTimeout(() => window.location.replace("/login"), 4000);
     }
 
-    // TODO: Receive the User information and save the token in local storage to re-authenticate the user on connection loss or re-login
+    let who_am_i = 'nobody';
+    api.request('user/token/' + window.localStorage.getItem('token'), d => {
+        let data = JSON.parse(d);
+        if(!data.success){
+            create_alert('You provided an invalid token.', 'You will now be redirected to the login page.', 'alert')
+            setTimeout(() => window.location.replace("/login"), 4000);
+        }
+        else{
+            $('.header-information').append(document.createTextNode(data.data.name));
+            who_am_i = data.data;
+        }
+    });
 
+    let channel_dir = new Map();
+    api.request('room/channels', c => {
+        let data = JSON.parse(c);
+        if(!data.success){
+            create_alert('Channel list couldn\'t be fetched.', 'Please try reloading the page. ' + data.message, 'alert')
+        }
+        else{
+            
+        }
+    });
+
+
+    let missed = 0;
+    $(window).on('focus', () => {
+        missed = 0;
+        document.title = `Azuma`;
+        $('#message').focus();
+    });
     socket.on('message', msg => {
+        if(!document.hasFocus()){
+            new Audio('/resources/audio/message.mp3').play();
+            missed += 1;
+            document.title = `(${missed}) Azuma`;
+            create_alert(msg.author.name, msg.content, 'chat');
+        }
         create_message(msg);
 
         // Scroll down so the user can see the new message
@@ -132,11 +176,12 @@
     });
 
     socket.on('alert', al => {
-        alert(al[0] + '\n\n' + al[1])
+        create_alert(al[0], al[1]);
     });
 
     socket.on('system', al => {
         create_banner(al);
+        //create_alert('System', al, 'info');
     });
 
     socket.on('disconnect', () => {
@@ -165,6 +210,9 @@
     };
 
     $('#message').on('keypress', e => {
+        if($('#message').val().startsWith('/')){
+            $('.commands-popout').addClass('unhide');
+        }
         if(e.which == 13){
             send_message();
         }
@@ -174,6 +222,10 @@
             send_message();
     })
 
+    $('#theme-switcher').on('change', e => {
+            document.getElementById('css-theme').href = `/css/themes/${ $('#theme-switcher').val() }.css`
+    })
+
     $('.message').on('mousedown', e => {
         if(e.which == 3){
             // TODO: Show context menu
@@ -181,33 +233,15 @@
     });
 
     $('.settings-icon').on('click', e => {
+        $('.chat-messages').removeClass('darken');
         $('#settings').toggleClass('hidden');
         $('.settings-category').css('border-right', 'none');
         $('.settings-popout').removeClass('unhide');
     });
 
     function settings(name){
-        $('.settings-category').css('border-right', 'none');
-        $('#settings-' + name).css('border-right', '1px solid white');
-
+        $('.chat-messages').addClass('darken');
         $('.settings-popout').removeClass('unhide');
         $('#settings-' + name + '-popout').addClass('unhide');
     }
-
-    $(() => {
-        $('header-information').append(socket.user.name);
-    });
-
-
-
-    // LOGIN
-    
-/*
-    socket.emit('login', {
-        token: window.localStorage.getItem('token') || 'new'
-    });
-
-    socket.on('login', data => {
-        window.localStorage.setItem('token', data.token)
-    });*/
 </script>

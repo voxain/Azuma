@@ -3,7 +3,7 @@ let getToken = () => {
     let token = '';
     for (let i = 0; i < 32; i++){
         if(Math.round(Math.random())) token += chars[Math.round( Math.random() * (chars.length - 1) )].toLowerCase();
-        else token += chars[Math.round( Math.random() * chars.length - 1 )];
+        else token += chars[Math.round( Math.random() * (chars.length) - 1 )];
     }
     return token;
 };
@@ -15,7 +15,7 @@ class User{
 
         this.verified = false;
         this.avatar = 'default';
-        this.color = 'default';
+        this.color = '#222';
         this.status = 'online';
         this.ban = 'none';
 
@@ -58,10 +58,6 @@ class Message{
         this.author = author;
         this.channel = channel; // Channel Feature not implemented yet
 
-        delete this.author.token;
-        delete this.author.lastSocket;
-        delete this.author.signUpAddress;
-
         this.createdAt = Date.now();
     }
 }
@@ -81,6 +77,7 @@ class UserPermissions{
     constructor(perms){
         this.ban = false;
         this.channels = false;
+        this.announce = false;
         this.admin = false;
 
         switch(perms){
@@ -90,6 +87,10 @@ class UserPermissions{
             case('moderator'): 
                 this.ban = true;
                 this.channels = true;
+                break;
+            case('announcer'): 
+                this.announce = true;
+                break;
         }
     }
 
