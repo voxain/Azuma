@@ -5,7 +5,9 @@ const chat      = require('./classes.js');
 
 module.exports = app => {
     app.get('/', (req, res) => {
-        res.render('home');
+        res.render('home', {
+            layout: 'main'
+        });
     });
     
     app.get('/chat', (req, res) => {
@@ -58,7 +60,6 @@ module.exports = app => {
 
     app.get('/api/room/channels', (req, res) => {
         let channels = cached_channels.get_cache();
-        console.log(channels);
         res.send(JSON.stringify({success: true, data: Array.from(channels)}));
     });
 

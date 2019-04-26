@@ -1,7 +1,7 @@
 // Package requirements
 
 const express   = require('express');
-const hbs       = require('express-handlebars');
+const hbs       = require('express-handlebars').create();
 const http      = require('http');
 const socket    = require('socket.io');
 
@@ -28,7 +28,7 @@ cached_channels.set(config.defaultChannel, new chat.Channel(config.defaultChanne
 
 let app = express();
 
-app.engine('handlebars', hbs({ defaultLayout: 'main' }));
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.use('/resources', express.static(__dirname + '/views/resources'));
 app.use('/css', express.static(__dirname + '/views/css'));
