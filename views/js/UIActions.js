@@ -1,3 +1,9 @@
+let safe_text = text => {
+    let dummy = document.createElement('div');
+    dummy.textContent = text;
+    return dummy.innerHTML;
+};
+
 let create_alert = (title, description, level) => {
 
     let colors = {
@@ -48,9 +54,9 @@ let create_alert = (title, description, level) => {
     setTimeout(() => {                     
         notify.style.animation = 'plopOut .3s cubic-bezier(0.15, 0, 1, -0.5)';
         setTimeout(() => {                     
-            document.body.removeChild(notify)
-        }, 290)
-    }, 3800)
+            document.body.removeChild(notify);
+        }, 290);
+    }, 3800);
 };
 
 let create_message = msg => {
@@ -70,9 +76,17 @@ let create_message = msg => {
     header.append(time);
 
     // Content
+    let innerText = safe_text(msg.content);
+
+        // URL Validation
+        let urls = innerText.match(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm);
+        if(urls) urls.forEach(u => {
+            innerText = innerText.replace(u, `<a href="${u}">${u}</a>`);
+        });
+
     let content = document.createElement('span');
     content.classList = 'message-content';
-    content.append(document.createTextNode(msg.content));
+    content.innerHTML = innerText;
 
 
     // Message

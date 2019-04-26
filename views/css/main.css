@@ -65,7 +65,7 @@ button:focus, input:focus, select:focus{
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: .2s ease;
     background: white;
-    border-radius: 5px;
+    border-radius: 7px;
     font-size: 20px;
     color:#222;
     margin-top:10px;

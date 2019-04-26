@@ -1,4 +1,5 @@
 let cached_users= require('./cache_users.js');
+let cached_channels= require('./cache_channels.js');
 const chat      = require('./classes.js');
 
 
@@ -27,6 +28,10 @@ module.exports = app => {
 
 
     // API Requests
+
+    app.get('/api/changelog', (req, res) => {
+        res.send(require('./changelogs.json').recent);
+    });
     
     app.get('/api/create_user/:username', (req, res) => {
         // TODO: Save user into database.
@@ -52,7 +57,9 @@ module.exports = app => {
     });
 
     app.get('/api/room/channels', (req, res) => {
-        res.send(JSON.stringify({success: false, message: 'The channel system is not implemented yet.'}));
+        let channels = cached_channels.get_cache();
+        console.log(channels);
+        res.send(JSON.stringify({success: true, data: Array.from(channels)}));
     });
 
     app.get('/api/room/users', (req, res) => {

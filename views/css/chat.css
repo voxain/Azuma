@@ -128,19 +128,20 @@ body{background: black}
     padding-right: 20px;
     transition: .2s ease;
     background: white;
-    border-radius: 5px;
+    border-radius: 7px;
     font-size: 20px;
     color:#666;
     overflow:hidden;
+    width: calc(100% - 40px);
 }
 .channel:hover{
-    box-shadow: 0px 5px 8px rgba(0,0,0,0.1);
+    box-shadow: 0px 4px 7px rgba(0,0,0,0.1);
     cursor:pointer;
 }
 .channel.active{
     background: linear-gradient(to right, #1FA2FF, #12D8FA, #A6FFCB) !important;
     color:white;
-    box-shadow: 3px 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 2px 4px 7px rgba(0,0,0,0.1);
 }
 #settings{
     overflow: visible;
@@ -336,7 +337,7 @@ body{background: black}
     top: 15px;
     left: 35%;
     min-height: 60px;
-    max-height: 140px;
+    max-height: 260px;
     background: rgba(0,0,0,.6);
     box-shadow: 0px 5px 10px rgba(0,0,0,0.3);
     animation: plop .3s cubic-bezier(0, 1.5, 0.85, 1);
@@ -344,12 +345,17 @@ body{background: black}
     border-radius: 15px;
     color:white;
     padding-top:10px;
+    padding-left:90px;
     font-size: 19px;
     line-height: 27px;
 }
 .alert-icon{
     font-size: 40px;
-    line-height: 70px;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    position: absolute;
+    top:0;bottom:0;left:0;right:0;
     /*animation: attention .3s ease .3s;*/
 }
 .alert-title{
@@ -357,14 +363,13 @@ body{background: black}
     font-weight: bold;
 }
 .alert-left{
-    height:calc(100% + 10px);
-    min-height: 100%;
+    height:100%;
     width: 80px;
-    float:left;
-    margin-top: -10px;
-    margin-right: 10px;
     text-align: center;
-    position: relative;
+    position: absolute;
+    padding-top:10px;
+    top: 0;
+    left: 0;
 }
 .alert-timer{
     position: absolute;

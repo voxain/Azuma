@@ -113,8 +113,11 @@ io.on('connection', (sock) => {
                 if(msg.content.startsWith('/')) {
                     let invoke = msg.content.substr(1).split(' ')[0];
                     let args = msg.content.substr(1).split(' ');
-                    args.shift()
+                    args.shift();
                     switch(invoke){
+                        case('help'):
+                            sock.emit('system', 'Available commands: help, system, color');
+                            break;
                         case('system'): 
                             if(user.perms.announce || user.perms.admin) io.emit('system', msg.content.replace('/system ', ''));
                             else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>announcer</b>.');
@@ -125,6 +128,9 @@ io.on('connection', (sock) => {
                                 sock.emit('system', `${args[0]} now has the color <span style="color: ${args[1]}">${args[1]}</span>`);
                             }
                             else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>channel manager</b>.');
+                            break;
+                        default:
+                            sock.emit('system', 'Not a valid command.');
                             break;
                     }
                 }

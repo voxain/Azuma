@@ -47,6 +47,8 @@ class Channel{
         this.id = Date.now() * Math.round( Math.random() * 5 );
         this.name = name;
 
+        this.type = 'text';
+
         this.createdAt = Date.now();
     }
 }
@@ -56,7 +58,7 @@ class Message{
         this.id = Date.now() * Math.round( Math.random() * 5 );
         this.content = content;
         this.author = author;
-        this.channel = channel; // Channel Feature not implemented yet
+        this.channel = channel;
 
         this.createdAt = Date.now();
     }
