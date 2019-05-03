@@ -14,8 +14,8 @@ class User{
         this.name = nickname;
 
         this.verified = false;
-        this.avatar = 'default';
-        this.color = '#222';
+        this.avatar = '/resources/graphics/avatars/azuma-3.svg';
+        this.color = '#666';
         this.status = 'online';
         this.ban = 'none';
 
@@ -43,11 +43,11 @@ class User{
 }
 
 class Channel{
-    constructor(name){
+    constructor(name, type){
         this.id = Date.now() * Math.round( Math.random() * 5 );
         this.name = name;
 
-        this.type = 'text';
+        this.type = type || 'text';
 
         this.createdAt = Date.now();
     }

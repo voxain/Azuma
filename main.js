@@ -19,9 +19,10 @@ const randoms   = {
 let cached_users = require('./cache_users.js');
 let cached_channels = require('./cache_channels.js');
 
-cached_users.set(config.adminToken, new chat.User('admin', 'admin', [['color', 'red'], ['verified', 'true'], ['token', config.adminToken]]));
+cached_users.set(config.adminToken, new chat.User('administrator', 'admin', [['color', 'red; background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);-webkit-background-clip: text;-webkit-text-fill-color: transparent;'], ['verified', 'true'], ['token', config.adminToken]])); // Yeah fuck this line but who doesn't want a cool rainbow username for his admin account
 
 cached_channels.set(config.defaultChannel, new chat.Channel(config.defaultChannel));
+cached_channels.set('memes', new chat.Channel('memes'));
 
 
 // Express initialization
@@ -64,7 +65,7 @@ io.on('connection', (sock) => {
             sock.user = cached_users.get(data);
     
             sock.emit('system', '<b>Welcome to the chat!</b><br>The server time is ' + new Date() + '.<br><del>Use <b>/help</b> in chat to see a list of chat commands.</del>');
-            io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
+            io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b style="color: ${sock.user.color}">${sock.user.name}</b>`));
         }
         else sock.emit('alert', ['Your login failed.', 'That\'s all we know.']);
     });

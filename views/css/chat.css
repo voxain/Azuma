@@ -1,4 +1,4 @@
-body{background: black}
+body{background: black; perspective: 700px;}
 
 .input{
     position: absolute;
@@ -109,14 +109,19 @@ body{background: black}
     padding-top:20px;
     padding-left:20px;
     padding-right:20px;
-    z-index:90;
+    z-index:115;
     overflow-y:scroll;
     background: white;
-    transition: .4s cubic-bezier(0, 1, .5, 1);
+    /*transition: .4s cubic-bezier(0, 1, .5, 1);*/
+    transition: .4s ease;
+
+    transform-origin: 0px 50%;
+    transform: rotateY(0deg);
 }
 .channellist.hidden{
-    left:calc(-17% - 40px);
-    transition: .4s cubic-bezier(1, 0, 1, .5);
+    /*left:calc(-17% - 40px);*/
+    transform: rotateY(-90deg);
+    /*transition: .4s cubic-bezier(1, 0, 1, .5);*/
 }
 .channellist::-webkit-scrollbar{
     display: none;
@@ -147,25 +152,20 @@ body{background: black}
     overflow: visible;
 }
 .foot-centered{
-    position: absolute;
-    bottom: 0;
-    left:0;
     text-align: center;
     width:100%;
+    color: #aaa;
 }
 .settings-category{
-    width:100%;
+    width: calc(100% + 20px);
     height:30px;
     font-size: 20px;
     padding: 10px;
     padding-left: 20px;
     padding-right: 0px;
+    margin-left: -20px;
     transition: .1s ease;
     color: #222;
-}
-.settings-category.sel{
-    width:calc(100% - 3px);
-    border-left: 3px solid gray;
 }
 .settings-category:hover{
     background: #eee;
@@ -178,7 +178,7 @@ body{background: black}
     font-size:20px;
     float:right;
     margin-top: -10px;
-    color: #222
+    color: inherit;
 }
 .account-head{
     width: 100%;
@@ -190,7 +190,7 @@ body{background: black}
     width:130px;
     height:130px;
     border-radius: 1000px;
-    box-shadow: 0px 7px 10px rgba(0,0,0,0.3);
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.2);
     float: left;
     margin-right: 20px;
     margin-top:-10px;
@@ -258,7 +258,7 @@ body{background: black}
     100%{opacity: 1;}
 }
 .message:hover{
-    box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
+    box-shadow: 0px 7px 10px rgba(0,0,0, 0.05);
 }
 
 .message-information{
@@ -284,28 +284,46 @@ body{background: black}
 
 .settings-popout{
     position: fixed;
-    height: 70%;
+    height: calc(70% - 120px);
     width: 30%;
     top:-100%;
-    transform: scale(.5);
+    transform: scale(.5) rotateX(80deg);
+    opacity: 0;
+    transform-origin: 50% 0px;
     left:35%;
-    padding-top:20px;
+    padding-top:120px;
     padding-left:20px;
     padding-right:20px;
     border-radius: 15px;
     z-index:85;
-    overflow-y:scroll;
+    overflow-y:auto;
     background: white;
-    transition: .3s ease;
     box-shadow: 0 7px 10px rgba(0,0,0,0.3);
-    transition: .6s cubic-bezier(.5, 0, 0, 1);
+    transition: .8s cubic-bezier(.5, 0, 0, 1);
 }
 .settings-popout.unhide{
+    opacity: 1;
     top:15%;
-    transform: scale(1);
+    transform: scale(1) rotateX(0deg);
 }
 .settings-popout::-webkit-scrollbar{
-    display:none;
+    width: 20px;
+    position: fixed;
+}
+.settings-popout::-webkit-scrollbar-track{
+    border: solid 7px transparent;
+    background: transparent;
+}
+.settings-popout::-webkit-scrollbar-thumb{
+    box-shadow: inset 0 0 10px 10px rgba(0,0,0,.1);
+    border: solid 7px transparent;
+    border-radius: 15px;
+}
+.settings-popout::-webkit-scrollbar-thumb:hover{
+    box-shadow: inset 0 0 10px 10px rgba(0,0,0,.2);
+}
+.settings-popout::-webkit-scrollbar-thumb:active{
+    box-shadow: inset 0 0 10px 10px rgba(0,0,0,.4);
 }
 .settings-headline{
     font-size:40px;

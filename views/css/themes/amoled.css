@@ -1,22 +1,22 @@
 /* Dark Theme by shini */
 
 body{
-    color: rgb(59, 59, 59);
+    color: #ccc;
 }
 
 
 .input, .button{
     color: rgb(218, 218, 218);
-    background: rgb(46, 46, 46);
+    background: black;
 }
 .button:hover{
     cursor: pointer; 
     box-shadow: none;
-    background: #444;
+    background: #111;
 }
 
 .chat-messages {
-    background: rgb(59, 59, 59);
+    background: black;
 }
 
 .input.h:hover{
@@ -28,29 +28,28 @@ body{
 }
 
 .header{
-    background: rgb(43, 43, 43);
+    background: black;
     color: rgb(218, 218, 218);
 }
 .settings-icon{
     color: rgb(218, 218, 218);
-    background: rgb(43, 43, 43);
 }
 .settings-icon:hover{
     background: rgb(131, 131, 131);
 }
 
 html, body, head {
-    background: rgb(43, 43, 43);
+    background: black;
 }
 .channellist{
-    background: rgb(43, 43, 43);
+    background: black;
 }
 .channel{
-    background: rgb(59, 59, 59);
+    background: black;
     color:rgb(218, 218, 218);
 }
 .channel.active{
-    background: rgb(59, 59, 59) !important;
+    background: linear-gradient(to right, #333, transparent) !important;
     box-shadow:none !important;
     width:100%;
 }
@@ -68,15 +67,16 @@ html, body, head {
 }
 
 .chat-messages{
-    border-right: 1px solid rgb(131, 131, 131);
+    border-right: none;
 }
 
 .message{
-    background: rgb(46, 46, 46);
+    background: black;
+    border: 1px solid #010101;
     color: rgb(218, 218, 218);
 }
 .message:hover{
-    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.342);
+    box-shadow: none;
 }
 
 .message-time{
@@ -87,6 +87,7 @@ html, body, head {
 }
 
 .settings-popout{
-    background: rgb(46, 46, 46);
+    background: black;
+    border: 1px solid #111;
     color: rgb(218, 218, 218);
 }

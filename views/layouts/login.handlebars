@@ -87,6 +87,15 @@
 <script>
     $(() => {
 
+        
+        $('#try-again').on('click', e => {
+            $('#input').text('Let\'s do this!');
+            $('#btn-logon').text('LET ME IIIIIN!');
+            $('.form-input').css('animation', 'none');
+
+            showPanel('error', 'login');
+        });
+
     let showPanel = (old, now) => {
         $('#form-' + old).css('transform', 'rotateY(180deg)');
         $('#form-' + old).css('opacity', '0');

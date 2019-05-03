@@ -65,7 +65,7 @@ let create_message = msg => {
 
     let author = document.createElement('span');
     author.classList = 'message-author';
-    author.style.color = msg.author.color;
+    author.style = 'color:' + msg.author.color;
     author.append(document.createTextNode(msg.author.name + ' '));
 
     let time = document.createElement('span');
@@ -120,15 +120,25 @@ let create_banner = al => {
 
     document.getElementById('messages-container').append(sys);
     document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
+};
+
+function channel(channel){
+    chat_channel = channel;
+    $('.channel').removeClass('active');
+    $('#channel-' + channel).addClass('active');
 }
 
 let channel_list = channels => {
     channels.forEach(c => {
-        let channel = document.createElement('div');
-        channel.classList = 'channel';
-        channel.innerHTML = '#' + c.name;
-        channel.id = 'channel-' + c.id;
+        c = c[1];
+        let channele = document.createElement('div');
+        channele.classList = `channel${(c.name == 'general' ? ' active' : '')}`;
+        channele.innerHTML = '<span class="mdi mdi-pound"></span> ' + c.name;
+        $(channele).on('click', () => {
+            channel(c.id);
+        });
+        channele.id = 'channel-' + c.id;
 
-        $('#channels').append(channel);
-    })
+        $('#channels').append(channele);
+    });
 };

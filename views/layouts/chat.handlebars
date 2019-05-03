@@ -2,6 +2,8 @@
 <link rel="stylesheet" href="css/chat.css" />
 <link rel="stylesheet" id="css-theme" href="css/themes/default.css" />
 <link rel="stylesheet" href="https://cdn.materialdesignicons.com/3.5.95/css/materialdesignicons.min.css" />
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="js/REST.js"></script>
@@ -24,10 +26,6 @@
 </div>
 
 <div class="channellist" id="channels">
-    <div class="channel" id="channel-announcements" onclick="channel('announcements')"><span class="mdi mdi-bullhorn-outline"></span> announcements</div><br>
-    <div class="channel active" id="channel-general" onclick="channel('general')"><span class="mdi mdi-pound"></span> general</div>
-    <div class="channel" id="channel-memes" onclick="channel('memes')"><span class="mdi mdi-pound"></span> memes</div>
-    <div class="channel" id="channel-test" onclick="channel('test')"><span class="mdi mdi-lock-outline"></span> test</div>
 </div>
 
 <div class="channellist hidden" id="online">
@@ -37,7 +35,6 @@
         <img class="online-user-avatar" src="/resources/graphics/avatars/azuma-3.svg"> <span id="user-online-you-name"></span>
     </div><br>
 
-    ONLINE | 2
     <div id="online-users">
 
     </div>
@@ -51,7 +48,7 @@
     <div class="settings-category" onclick="settings('account')" id="settings-account">Account<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <div class="settings-category" onclick="settings('appearance')" id="settings-appearance">Appearance<span class="mdi mdi-chevron-right settings-chevron"></span></div>
     <div class="settings-category" onclick="settings('sound')" id="settings-sound">Sound<span class="mdi mdi-chevron-right settings-chevron"></span></div>
-    <div class="settings-category" onclick="settings('info')" id="settings-info">Info<span class="mdi mdi-chevron-right settings-chevron"></span></div>
+    <div class="settings-category" onclick="settings('info')" id="settings-info">Info<span class="mdi mdi-chevron-right settings-chevron"></span></div><br>
     <a href="/logout"><div class="settings-category">Logout<span class="mdi mdi-account-arrow-right-outline settings-chevron"></span></div></a>
     <div class="foot-centered">
         Azuma v0.0.1a
@@ -63,7 +60,7 @@
 <div class="settings-popout" id="settings-account-popout">
     <div class="form-header big color-title">
         <span class="settings-headline"><span class="mdi mdi-account-outline"> </span>Account</span>
-    </div><br><br><br><br>
+    </div>
     <div class="account-head">
         <img class="account-head-avatar" src="/resources/graphics/avatars/azuma-3.svg">
         <span class="account-head-name"><span class="mdi mdi-check-decagram"></span> admin</span><br>
@@ -80,7 +77,7 @@
 <div class="settings-popout" id="settings-appearance-popout">
     <div class="form-header big color-red">
         <span class="settings-headline"><span class="mdi mdi-palette-outline"> </span>Appearance</span>
-    </div><br><br><br><br>
+    </div>
 
     <!--What? I should use flexbox? Yeah, I should, but who cares? :tramp:-->
     <table style="width: 100%;table-layout: fixed ;">
@@ -91,6 +88,7 @@
                 <select class="button" id="theme-switcher">
                     <option value="default" selected>Default</option>
                     <option value="dark">Dark</option>
+                    <option value="amoled">AMOLED</option>
                     <option value="custom" disabled>Custom...</option>
                 </select>
 
@@ -101,8 +99,10 @@
                 <select class="button" value="Hind" id="font-switcher">
                     <option value="Abel" style="font-family: Abel">Abel</option>
                     <option value="Archivo Narrow" style="font-family: Archivo Narrow">Archivo Narrow</option>
-                    <option value="Hind" selected style="font-family: Hind">Hind</option>
+                    <option value="Hind" style="font-family: Hind">Hind</option>
                     <option value="Rajdhani" style="font-family: Rajdhani">Rajdhani</option>
+                    <option value="Roboto" style="font-family: Roboto">Roboto</option>
+                    <option value="Titillium Web" selected style="font-family: Titillium Web">Titillium Web</option>
                 </select>
 
             </td>
@@ -115,7 +115,7 @@
 <div class="settings-popout" id="settings-sound-popout">
     <div class="form-header big color-green">
         <span class="settings-headline"><span class="mdi mdi-speaker"> </span>Sound</span>
-    </div><br><br><br><br>
+    </div>
     <span style="color: #bbb">Problems with surround sound audio systems are known. We're working on a fix.</span><br>
     <button class="button" style="padding-left: 10px" onclick="new Audio('/resources/audio/message.mp3').play();"><span class="mdi mdi-volume-high"></span> Incoming message</button><br>
     <button class="button" style="padding-left: 10px" onclick="new Audio('/resources/audio/message_short.mp3').play();"><span class="mdi mdi-volume-high"></span> Short incoming message</button><br>
@@ -125,8 +125,11 @@
 <div class="settings-popout" id="settings-info-popout">
     <div class="form-header big color-blue">
         <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Info</span>
-    </div><br><br><br><br>
-    Azuma is being developed by shinixsensei and RMC Productions.<br><br>
+    </div>
+    <span style="color: #bbb">Links will always open in a new tab.</span><br><br>
+    
+    Azuma is being developed by <a href="https://github.com/shinixsensei-dev">shinixsensei</a> and <a href="https://rmcprod.me">RMC</a><br>
+    Additional contributors: <a href="https://ron31.me">Ron31</a><br><br>
     You're using an alpha version which is in active development. Be aware of bugs and errors.<br>
     If you find any bugs, we'd appreciate if you opened an issue on GitHub.<br><br>
     The Notification sounds are licensed under a CC-Attribution License. Find the sounds here:<br>
@@ -134,7 +137,9 @@
     <a href="https://notificationsounds.com/notification-sounds/suppressed-437">Short new message sound</a><br>
     <a href="https://notificationsounds.com/message-tones/youve-been-informed-345">New Friend request</a><br><br>
 
-    <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Changelog</span> last 5 entries
+    <div class="form-header inline big color-blue">
+        <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Changelog</span>
+    </div><br>
     <section id="changelog"></section>
 
     <div class="form-footer">
@@ -169,7 +174,9 @@
 
 <script>
 
-    
+    $(document).ready(() => {
+        $('a').attr('target', '_blank');
+    });
 
      if(!window.localStorage.getItem('token')){
         create_alert('You need to sign in with an account.', 'You will now be redirected to the login page.', 'alert')
@@ -201,6 +208,7 @@
             api.request('room/users', userArray => {
                 let result = JSON.parse(userArray);
 
+                $('#online-users').text('ONLINE | ' + result.data.length);
                 result.data.forEach(acc => {
                     if(acc.status != 'online') return;
                     let userList = document.createElement('div');
@@ -208,7 +216,7 @@
                     userList.id = 'online-user-' + acc.id;
 
                     let avatar = document.createElement('img');
-                    avatar.src = '/resources/graphics/avatars/azuma-3.svg';
+                    avatar.src = acc.avatar;
                     avatar.classList = 'online-user-avatar';
 
                     userList.append(avatar);
@@ -226,7 +234,7 @@
                     create_alert('Channel list couldn\'t be fetched.', 'Please try reloading the page. ' + data.message, 'alert')
                 }
                 else{
-                    console.log(data)
+                    channel_list(data.data);
                 }
             });
         }
@@ -274,7 +282,7 @@
         $('.chat-messages').removeClass('darken');
         $('#settings').addClass('hidden');
         $('.settings-popout').removeClass('unhide');
-        $('.settings-category').removeClass('sel');
+        $('.settings-category').removeClass('color-blue');
     });
 
     $('.settings-icon').on('click', e => {
@@ -282,7 +290,7 @@
         $('.chat-messages').removeClass('darken');
         $('#settings').toggleClass('hidden');
         $('.settings-popout').removeClass('unhide');
-        $('.settings-category').removeClass('sel');
+        $('.settings-category').removeClass('color-blue');
     });
 
     function settings(name){
@@ -290,8 +298,8 @@
         $('.settings-popout').removeClass('unhide');
         $('#settings-' + name + '-popout').addClass('unhide');
 
-        $('.settings-category').removeClass('sel');
-        $('#settings-' + name).addClass('sel');
+        $('.settings-category').removeClass('color-blue');
+        $('#settings-' + name).addClass('color-blue');
     }
 
     
@@ -302,10 +310,4 @@
         $('#settings').addClass('hidden');
         $('#online').toggleClass('hidden');
     });
-
-    function channel(channel){
-        chat_channel = channel;
-        $('.channel').removeClass('active');
-        $('#channel-' + channel).addClass('active');
-    }
 </script>

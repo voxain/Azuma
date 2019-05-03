@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Abel|Archivo+Narrow|Hind|Rajdhani');
+@import url('https://fonts.googleapis.com/css?family=Abel|Roboto|Titillium Web|Archivo+Narrow|Hind|Rajdhani');
 
 :root{
     --accent: #008fff;
@@ -6,7 +6,7 @@
 
 body, html, button, input, textarea, select{
     color: #222222;
-    font-family: Hind, Helvetica, Arial, sans-serif;
+    font-family: "Titillium Web", Hind, Helvetica, Arial, sans-serif;
     border:none; 
     background: none;
     margin: 0; border:0; padding: 0;
@@ -19,6 +19,9 @@ body, html{
 
 a{
     text-decoration: none;
+}
+a:visited{
+    color: blue;
 }
 select {
     -webkit-appearance: none;
@@ -49,20 +52,22 @@ button:focus, input:focus, select:focus{
     height: 100px;
     line-height: 100px;
 }
+.form-header.inline{
+    width: calc(100% + 40px);
+    margin-left: -20px;
+    position: static;
+}
 .form-footer{
-    width: calc(100% - 40px);
+    width: 100%;
     height: auto;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    padding: 20px;
+    position: static;
+    padding-bottom: 20px;
 }
 
 .button{
     padding:3px;
     padding-left: 20px;
     padding-right: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
     transition: .2s ease;
     background: white;
     border-radius: 7px;
@@ -90,15 +95,19 @@ button:focus, input:focus, select:focus{
 
 .color-title{
     background: linear-gradient(to right, #3494e6, #ec6ead) !important;
+    color:white !important;
 }
 .color-red{
-    background: linear-gradient(to right, #e52d27, #b31217) !important;
+    background: linear-gradient(to right, #ff2600, #db0054) !important;
+    color:white !important;
 }
 .color-green{
     background: linear-gradient(to right, #11998e, #38ef7d) !important;
+    color:white !important;
 }
 .color-blue{
     background: linear-gradient(to right, #1FA2FF, #12D8FA, #A6FFCB) !important;
+    color:white !important;
 }
 
 

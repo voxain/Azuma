@@ -25,7 +25,7 @@ socket.on('message', msg => {
         document.title = `(${missed}) Azuma`;
         create_alert(`${msg.author.name} #${msg.channel}`, msg.content, 'chat');
     }
-    if(chat_channel == msg.channel) create_message(msg);
+    //if(chat_channel == msg.channel) create_message(msg);
 
     // Scroll down so the user can see the new message
     document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
