@@ -1,5 +1,6 @@
 {
     "recent": [
+        ["05.05.2019", "- You can now view a user's profile card by clicking their name in the user list."],
         ["26.04.2019", "- Added inline clickable links for messages. If you find any XSS vulnerability, please immediately report it."]
     ]
 }

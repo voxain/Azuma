@@ -11,9 +11,9 @@ let create_alert = (title, description, level) => {
         info: 'blue',
         success: 'green',
         chat: 'blue'
-    }
+    };
 
-    if(!level) var level = 'alert';
+    if(!level) level = 'alert';
     let notify = document.createElement('div');
     notify.classList = 'alert';
 
@@ -141,4 +141,69 @@ let channel_list = channels => {
 
         $('#channels').append(channele);
     });
+};
+
+let create_profile = user => {
+    let card = document.createElement('div');
+    card.classList = 'profile-card';
+
+        let head = document.createElement('div');
+        head.classList = 'profile-card-head color-green';
+
+            let avatar = document.createElement('img');
+            avatar.classList = 'profile-card-head-avatar';
+            avatar.src = user.avatar;
+
+            let username = document.createElement('div');
+            username.classList = 'profile-card-username';
+            username.append(document.createTextNode(user.name));
+
+        head.append(avatar);
+        head.append(username);
+
+
+        let data = document.createElement('div');
+        data.classList = 'profile-card-data';
+
+            let data_categ = [
+                ['id', 'ID'],
+                ['status', 'Status'],
+                ['createdAt', 'Signed Up'],
+                ['color', 'Chat color']
+            ];
+
+            data_categ.forEach(c => {
+                let headline = document.createElement('div');
+                headline.classList = 'small-headline';
+                headline.innerHTML = c[1];
+
+                data.append(headline);
+
+                data.append(document.createTextNode( user[c[0]] ));
+                data.append(document.createElement('br'));
+            });
+
+        
+            let foot = document.createElement('div');
+            foot.classList = 'form-footer profilecard';
+
+                let fr_req = document.createElement('button');
+                fr_req.classList = 'button form-input disabled';
+                fr_req.innerHTML = 'Send Friend Request';
+
+                let close = document.createElement('button');
+                close.classList = 'button form-input';
+                close.onclick = () => {
+                    document.getElementById('appends').removeChild(card);
+                };
+                close.innerHTML = 'Close';
+
+            foot.append(fr_req);
+            foot.append(close);
+        
+        card.append(head);
+        card.append(data);
+        card.append(foot);
+
+        $('#appends').append(card);
 };

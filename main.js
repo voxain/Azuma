@@ -125,7 +125,7 @@ io.on('connection', (sock) => {
                             break;
                         case('color'): 
                             if(user.perms.channels || user.perms.admin){
-                                cached_users.filter(u => u.name == args[0]).prop('color', args[1]);
+                                cached_users.filter(u => u.id == args[0]).prop('color', args[1]);
                                 sock.emit('system', `${args[0]} now has the color <span style="color: ${args[1]}">${args[1]}</span>`);
                             }
                             else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>channel manager</b>.');

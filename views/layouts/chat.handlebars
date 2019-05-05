@@ -55,6 +55,9 @@
     </div>
 </div>
 
+
+<div id="appends"></div>
+
 <!--Settings popouts-->
 
 <div class="settings-popout" id="settings-account-popout">
@@ -174,7 +177,7 @@
 
 <script>
 
-    $(document).ready(() => {
+    $(document).ready((localhost) => {
         $('a').attr('target', '_blank');
     });
 
@@ -213,6 +216,9 @@
                     if(acc.status != 'online') return;
                     let userList = document.createElement('div');
                     userList.classList = 'online-user';
+                    userList.onclick = () => {
+                        create_profile(acc)
+                    };
                     userList.id = 'online-user-' + acc.id;
 
                     let avatar = document.createElement('img');

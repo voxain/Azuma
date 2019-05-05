@@ -37,6 +37,10 @@ button:focus, input:focus, select:focus{
     width:100%;
     text-align: center;
 }
+.form-input.disabled{
+    color: #aaa;
+    cursor: not-allowed !important;
+}
 .form-header{
     background: linear-gradient(to right, red, #ff0066);
     position: absolute; 
@@ -111,6 +115,25 @@ button:focus, input:focus, select:focus{
 }
 
 
+::-webkit-scrollbar{
+    width: 20px;
+    position: fixed;
+}
+::-webkit-scrollbar-track{
+    border: solid 7px transparent;
+    background: transparent;
+}
+::-webkit-scrollbar-thumb{
+    box-shadow: inset 0 0 10px 10px rgba(0,0,0,.1);
+    border: solid 7px transparent;
+    border-radius: 15px;
+}
+::-webkit-scrollbar-thumb:hover{
+    box-shadow: inset 0 0 10px 10px rgba(0,0,0,.2);
+}
+::-webkit-scrollbar-thumb:active{
+    box-shadow: inset 0 0 10px 10px rgba(0,0,0,.4);
+}
 
 
 

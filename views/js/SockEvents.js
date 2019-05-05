@@ -18,9 +18,12 @@ $(window).on('focus', () => {
     $('#message').focus();
 });
 
+let sounds = {
+    newMessage: new Audio('/resources/audio/message.mp3')
+};
 socket.on('message', msg => {
     if(!document.hasFocus() || chat_channel != msg.channel){
-        new Audio('/resources/audio/message.mp3').play();
+        sounds.newMessage.play();
         missed += 1;
         document.title = `(${missed}) Azuma`;
         create_alert(`${msg.author.name} #${msg.channel}`, msg.content, 'chat');
