@@ -179,7 +179,8 @@ let create_profile = user => {
 
                 data.append(headline);
 
-                data.append(document.createTextNode( user[c[0]] ));
+                if(c[0] == 'createdAt') data.append(document.createTextNode( new Date(user[c[0]]).toLocaleString() ));
+                else data.append(document.createTextNode( user[c[0]] ));
                 data.append(document.createElement('br'));
             });
 

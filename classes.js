@@ -17,7 +17,7 @@ class User{
         this.avatar = '/resources/graphics/avatars/azuma-3.svg';
         this.color = '#666';
         this.status = 'online';
-        this.ban = 'none';
+        this.banned = 'none';
 
         this.perms = new UserPermissions(perms || '');
 
@@ -35,7 +35,7 @@ class User{
         }
     }
     ban(reason, executor){
-        this.ban = new Ban(reason, executor);
+        this.banned = new Ban(reason, executor);
     }
     prop(property, value){
         this[property] = value;

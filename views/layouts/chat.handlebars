@@ -82,31 +82,53 @@
         <span class="settings-headline"><span class="mdi mdi-palette-outline"> </span>Appearance</span>
     </div>
 
+    <div id="appearance-table"></div> <!--Themers can use these divs to display information about their theme.-->
+    <div id="appearance-table-2"></div>
+    
     <!--What? I should use flexbox? Yeah, I should, but who cares? :tramp:-->
-    <table style="width: 100%;table-layout: fixed ;">
+    <table style="width: 100%;table-layout: fixed ;line-height: 20px; color: #aaa">
         <tr>
             <td>
 
-                Choose a theme<br>
-                <select class="button" id="theme-switcher">
+                Choose a theme
+                <select class="button form-input" id="theme-switcher">
                     <option value="default" selected>Default</option>
                     <option value="dark">Dark</option>
                     <option value="amoled">AMOLED</option>
+                    <option value="fluent" style="color:red">(Experimental) Fluent</option>
                     <option value="custom" disabled>Custom...</option>
-                </select>
+                </select><br><br>
 
-            </td>
-            <td>
-
-                Font<br>
-                <select class="button" value="Hind" id="font-switcher">
+                Font
+                <select class="button form-input" value="Hind" id="font-switcher">
                     <option value="Abel" style="font-family: Abel">Abel</option>
                     <option value="Archivo Narrow" style="font-family: Archivo Narrow">Archivo Narrow</option>
                     <option value="Hind" style="font-family: Hind">Hind</option>
                     <option value="Rajdhani" style="font-family: Rajdhani">Rajdhani</option>
                     <option value="Roboto" style="font-family: Roboto">Roboto</option>
                     <option value="Titillium Web" selected style="font-family: Titillium Web">Titillium Web</option>
-                </select>
+                </select><br><br>
+
+                Background
+                <input class="button form-input" style="text-align:left" placeholder="Custom background URL" disabled>
+
+            </td>
+            <td>
+
+                Channel list layout
+                <select class="button form-input">
+                    <option value="default" selected>Default</option>
+                    <option value="compact" disabled>Compact</option>
+                    <option value="big" disabled>Big</option>
+                    <option value="micro" disabled>Micro</option>
+                </select><br><br>
+
+                Message layout
+                <select class="button form-input">
+                    <option value="default" selected>Default</option>
+                    <option value="compact" disabled>Compact</option>
+                    <option value="big" disabled>Big</option>
+                </select><br><br>
 
             </td>
         </tr>
@@ -129,7 +151,7 @@
     <div class="form-header big color-blue">
         <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Info</span>
     </div>
-    <span style="color: #bbb">Links will always open in a new tab.</span><br><br>
+    <span style="color: #bbb" id="info-info">Links will always open in a new tab.</span><br><br>
     
     Azuma is being developed by <a href="https://github.com/shinixsensei-dev">shinixsensei</a> and <a href="https://rmcprod.me">RMC</a><br>
     Additional contributors: <a href="https://ron31.me">Ron31</a><br><br>
@@ -141,7 +163,7 @@
     <a href="https://notificationsounds.com/message-tones/youve-been-informed-345">New Friend request</a><br><br>
 
     <div class="form-header inline big color-blue">
-        <span class="settings-headline"><span class="mdi mdi-information-outline"> </span>Changelog</span>
+        <span class="settings-headline"><span class="mdi mdi-history"> </span>Changelog</span>
     </div><br>
     <section id="changelog"></section>
 
@@ -189,9 +211,11 @@
     api.request('changelog', ch => {
         ch.forEach((log, i) => {
             if(!(i >=5)){
-                $('#changelog').append(document.createTextNode(log[0]));
+                $('#changelog').append(log[0]);
                 $('#changelog').append(document.createElement('br'));
-                $('#changelog').append(document.createTextNode(log[1]));
+                $('#changelog').append(log[1]);
+                $('#changelog').append(document.createElement('br'));
+                $('#changelog').append(document.createElement('br'));
             }
         })
     });
@@ -206,6 +230,9 @@
         else{
             $('.header-information').append(document.createTextNode(data.data.name));
             $('#user-online-you-name').append(document.createTextNode(data.data.name));
+            $('#user-online-you-name').on('click', e => {
+                create_profile(data.data);
+            });
             who_am_i = data.data;
 
             api.request('room/users', userArray => {

@@ -33,6 +33,11 @@ socket.on('message', msg => {
     // Scroll down so the user can see the new message
     document.getElementById('scroller').scrollTo(0,document.getElementById('scroller').scrollHeight);
 });
+
+// TODO
+// Receive an event for a new joined user and create an entry in the user list.
+
+
 socket.on('alert', al => {
     create_alert(al[0], al[1]);
 });

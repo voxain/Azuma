@@ -32,6 +32,9 @@ select {
 button:focus, input:focus, select:focus{
     outline: none;
 }
+td{
+    vertical-align: top;
+}
 .form-input{
     margin-top:10px;
     width:100%;
@@ -110,7 +113,7 @@ button:focus, input:focus, select:focus{
     color:white !important;
 }
 .color-blue{
-    background: linear-gradient(to right, #1FA2FF, #12D8FA, #A6FFCB) !important;
+    background: linear-gradient(to right, #1FA2FF, #12D8FA) !important;
     color:white !important;
 }
 

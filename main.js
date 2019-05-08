@@ -64,7 +64,7 @@ io.on('connection', (sock) => {
         if(cached_users.has(data)){
             sock.user = cached_users.get(data);
     
-            sock.emit('system', '<b>Welcome to the chat!</b><br>The server time is ' + new Date() + '.<br><del>Use <b>/help</b> in chat to see a list of chat commands.</del>');
+            sock.emit('system', '<b>Welcome to the chat!</b><br>The server time is ' + new Date() + '.<br>Use <b>/help</b> in chat to see a list of chat commands.');
             io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b style="color: ${sock.user.color}">${sock.user.name}</b>`));
         }
         else sock.emit('alert', ['Your login failed.', 'That\'s all we know.']);
@@ -80,9 +80,9 @@ io.on('connection', (sock) => {
         if(sock.user && cached_users.has(sock.user.token) && cached_users.get(sock.user.token)){
     
             let user = cached_users.get(sock.user.token);
-            if(user.ban != 'none') sock.emit('alert', [
-                'You were banned from the chatroom.', 
-                'By: ' + user.ban.executor.name + '\nReason: ' + user.ban.reason
+            if(user.banned.status) sock.emit('alert', [
+                user.banned.executor.name + ' banned you from the chatroom.', 
+                 user.banned.reason
             ]);
             else if(message.content == '' || !message.content.match(/([^ ])/g)) sock.emit('alert', [
                 'Your message is too short.', 
@@ -117,19 +117,36 @@ io.on('connection', (sock) => {
                     args.shift();
                     switch(invoke){
                         case('help'):
-                            sock.emit('system', 'Available commands: help, system, color');
+                            sock.emit('system', 'Available commands: help, system, color, ban');
                             break;
                         case('system'): 
                             if(user.perms.announce || user.perms.admin) io.emit('system', msg.content.replace('/system ', ''));
                             else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>announcer</b>.');
                             break;
-                        case('color'): 
-                            if(user.perms.channels || user.perms.admin){
-                                cached_users.filter(u => u.id == args[0]).prop('color', args[1]);
-                                sock.emit('system', `${args[0]} now has the color <span style="color: ${args[1]}">${args[1]}</span>`);
-                            }
-                            else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>channel manager</b>.');
-                            break;
+                            case('color'): 
+                                if(user.perms.channels || user.perms.admin){
+                                    let target = cached_users.filter(u => u.id == args[0]);
+                                    if(target){
+                                        target.prop('color', args[1]);
+                                        io.emit('system', `${target.name} has been assigned the color <span style="color: ${args[1]}">${args[1]}</span> by ${msg.author.name}`);
+                                    }
+                                    else sock.emit('system', 'Please give a valid user ID.');
+                                }
+                                else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>channel manager</b>.');
+                                break;
+                            case('ban'): 
+                                if(user.perms.ban || user.perms.admin){
+                                    let target = cached_users.filter(u => u.id == args[0]);
+                                    if(target){
+                                        console.log(target)
+                                        args.shift();
+                                        target.ban(args.join(' '), user);
+                                        io.emit('system', `${target.name} has been banned by ${msg.author.name}. Reason: ${args.join(' ')}`);
+                                    }
+                                    else sock.emit('system', 'Please give a valid user ID.');
+                                }
+                                else sock.emit('system', 'To do that, you need to be an <b>admin</b> or <b>channel manager</b>.');
+                                break;
                         default:
                             sock.emit('system', 'Not a valid command.');
                             break;

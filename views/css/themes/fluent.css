@@ -1,0 +1,79 @@
+body{
+    background: url('http://hdqwalls.com/wallpapers/house-in-nature-wallpaper.jpg');
+    background-size: cover;
+}
+td{
+    color: white !important;
+    padding: 10px;
+}
+.form-input.disabled{
+    
+    color: rgba(255,255,255,.4);
+}
+#appearance-table::before{
+    content: "To use this theme, you need to enable the chrome flag 'Experimental web platform features' or use safari. Firefox, Edge and similar will NOT work.";
+    color: rgba(255,255,255,.4);
+}
+#appearance-table-2::before{
+    content: "This theme is currently experiencing issues with the background blur effect. Stay tuned.";
+    font-weight: bold;
+    color: rgb(255,0,0);
+}
+#info-info::after{
+    content: " Source of the fluent theme background: http://hdqwalls.com/wallpapers/house-in-nature-wallpaper.jpg";
+    color: rgba(255,255,255,.4);
+}
+.alert{
+    backdrop-filter: blur(10px);
+    box-shadow:none;
+}
+.settings-popout{
+    background: rgba(0,0,0,.3);
+    color: white !important;
+    backdrop-filter: blur(10px);
+    box-shadow: none;
+}
+.form-input, .button, .channel{
+    background: rgba(0,0,0,.2);
+    color: white;
+}
+.profile-card{
+    background: rgba(0,0,0,.5);
+    color: white !important;
+    backdrop-filter: blur(10px);
+    box-shadow: none;
+}
+.chat-messages{
+    background: rgba(0,0,0,.2);
+}
+.channellist{
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    color:white;
+}
+.header{
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    color:white;
+}
+.message{
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: none !important;
+    color:white;
+    border:none;
+}
+.message-content{
+    color:white;
+}
+.input.h{
+    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.3);
+    box-shadow: none !important;
+}
+.settings-category{
+    color:white;
+}
+.settings-category:hover{
+    background: rgba(0,0,0,.2);
+}

@@ -49,7 +49,7 @@ body{background: black; perspective: 700px;overflow:hidden;}
 .header{
     position: fixed;
     width: calc(15% + 0px);
-    height:calc(10% - 40px);
+    height:calc(10% - 49px);
     background: white;
     z-index:110;
     color: #333;
@@ -144,7 +144,7 @@ body{background: black; perspective: 700px;overflow:hidden;}
     cursor:pointer;
 }
 .channel.active{
-    background: linear-gradient(to right, #1FA2FF, #12D8FA, #A6FFCB) !important;
+    background: linear-gradient(to right, #1FA2FF, #12D8FA) !important;
     color:white;
     box-shadow: 2px 4px 7px rgba(0,0,0,0.1);
 }
@@ -401,7 +401,7 @@ body{background: black; perspective: 700px;overflow:hidden;}
 
 .profile-card{
     width:15%;
-    height:50%;
+    height:60%;
     position: fixed;
     left: 42.5%;
     top:20%;

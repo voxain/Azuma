@@ -1,6 +1,7 @@
 {
     "recent": [
-        ["05.05.2019", "- You can now view a user's profile card by clicking their name in the user list."],
-        ["26.04.2019", "- Added inline clickable links for messages. If you find any XSS vulnerability, please immediately report it."]
+        ["08.05.2019", "- Administrators or users with sufficient permissions can now ban a user by their ID."],
+        ["05.05.2019", "- You can now view a user's profile card by clicking their name in the user list.<br>- Introducing new Fluent Theme"],
+        ["26.04.2019", "- Added inline clickable links for messages. If you find any XSS vulnerability, please immediately report it.<br>- Created a changelog."]
     ]
 }
