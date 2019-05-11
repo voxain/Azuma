@@ -42,11 +42,10 @@ module.exports = app => {
         let acc = new chat.User(req.params.username, 'none');
         cached_users.set(acc.token, acc);
             
-        require('./user_actions.js').safeUser(acc);
 
         require('./main.js').emit('user_change', {
             action: 'new',
-            data: us
+            data: require('./user_actions.js').safeUser(acc)
         });
 
         res.send({success:true, token: acc.token});

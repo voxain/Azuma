@@ -149,6 +149,7 @@
             request.open('GET', `/api/create_user/${ $('#name').val() }`);
 
             request.onload = () => {
+                console.log(request.response)
                 let data = JSON.parse(request.response);
                 if(!data.success){
                     $('#error').text('Error: ' + data.error);
