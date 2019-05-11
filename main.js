@@ -44,6 +44,7 @@ let server = http.Server(app);
 // Socket.io initialization
 
 let io = socket(server);
+module.exports = io;
 
 
 // Socket.io responses

@@ -240,22 +240,7 @@
 
                 $('#online-users').text('ONLINE | ' + result.data.length);
                 result.data.forEach(acc => {
-                    if(acc.status != 'online') return;
-                    let userList = document.createElement('div');
-                    userList.classList = 'online-user';
-                    userList.onclick = () => {
-                        create_profile(acc)
-                    };
-                    userList.id = 'online-user-' + acc.id;
-
-                    let avatar = document.createElement('img');
-                    avatar.src = acc.avatar;
-                    avatar.classList = 'online-user-avatar';
-
-                    userList.append(avatar);
-                    userList.append(document.createTextNode(acc.name));
-
-                    $('#online-users').append(userList);
+                    create_user(acc)
                 });
             });
             

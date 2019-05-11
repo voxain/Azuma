@@ -128,6 +128,25 @@ function channel(channel){
     $('#channel-' + channel).addClass('active');
 }
 
+let create_user = acc => {
+    if(acc.status != 'online') return;
+                    let userList = document.createElement('div');
+                    userList.classList = 'online-user';
+                    userList.onclick = () => {
+                        create_profile(acc)
+                    };
+                    userList.id = 'online-user-' + acc.id;
+
+                    let avatar = document.createElement('img');
+                    avatar.src = acc.avatar;
+                    avatar.classList = 'online-user-avatar';
+
+                    userList.append(avatar);
+                    userList.append(document.createTextNode(acc.name));
+
+                    $('#online-users').append(userList);
+};
+
 let channel_list = channels => {
     channels.forEach(c => {
         c = c[1];

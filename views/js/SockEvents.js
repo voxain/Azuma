@@ -47,6 +47,12 @@ socket.on('system', al => {
     //create_alert('System', al, 'info');
 });
 
+
+socket.on('user_change', data => {
+    if(data.action == 'new') create_user(data.data);
+});
+
+
 socket.on('disconnect', () => {
     // TODO
     // On socket disconnect try to reconnect with the token as message
