@@ -42,11 +42,7 @@ module.exports = app => {
         let acc = new chat.User(req.params.username, 'none');
         cached_users.set(acc.token, acc);
             
-        let us = Object.assign({}, acc);
-
-        delete us.token;
-        delete us.lastSocket;
-        delete us.signUpAddress;
+        require('./user_actions.js').safeUser(acc);
 
         require('./main.js').emit('user_change', {
             action: 'new',

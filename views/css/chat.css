@@ -468,3 +468,74 @@ body{background: black; perspective: 700px;overflow:hidden;}
         transform: scale(1) rotateX(0deg);
     }
 }
+
+.welcome-background{
+    position: fixed;
+    top:0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background: rgba(0,0,0,0.6);
+    z-index: 99999;
+}
+
+.welcome-message{
+    position: fixed;
+    top:30%;
+    left: 30%;
+
+    width: 40%;
+    height: 40%;
+
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0px 3px 10px rgba(0,0,0,.1);
+    overflow-y:auto;
+    overflow-x:hidden;
+}
+
+.welcome-left{
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    width: 35%;
+    height: 100%;
+    animation: welcome .8s cubic-bezier(1, 0, 0.5, 1);
+}
+
+.welcome-right{
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    width: calc(65% - 40px);
+    height: calc(100% - 40px);
+
+    padding: 20px;
+    animation: welcome2 .8s cubic-bezier(1, 0, 0.5, 1);
+}
+
+.welcome-illustration{
+    width: 100%;
+    height: 100%;
+}
+.welcome-headline{
+    font-size: 30px;
+}
+@keyframes welcome{
+    0%{transform: translateX(-100%)}
+    100%{transform: translateX(0)}
+}
+@keyframes welcome2{
+    0%{opacity: 0;transform: translateX(-30%)}
+    100%{opacity: 1;transform: translateX(0)}
+}
+#welcome-got-it{
+    position: absolute;
+    right: 10px;
+    width: calc(100% - 20px);
+    bottom: 10px;
+}

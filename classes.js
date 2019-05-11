@@ -10,7 +10,7 @@ let getToken = () => {
 
 class User{
     constructor(nickname, perms, props, socket){
-        this.id = Date.now() * Math.round( Math.random() * 5 );
+        this.id = Date.now() * Math.round( Math.random() * 5 ) + 1;
         this.name = nickname;
 
         this.verified = false;
@@ -44,7 +44,7 @@ class User{
 
 class Channel{
     constructor(name, type){
-        this.id = Date.now() * Math.round( Math.random() * 5 );
+        this.id = Date.now() * Math.round( Math.random() * 5 ) + 1;
         this.name = name;
 
         this.type = type || 'text';
@@ -56,12 +56,12 @@ class Channel{
 
 class Message{
     constructor(content, author, channel){
-        this.id = Date.now() * Math.round( Math.random() * 5 );
+        this.id = Date.now() * Math.round( Math.random() * 5 ) + 1;
         this.content = content;
         this.author = author;
         this.channel = channel;
 
-        // Preparation for making banners persistant
+        // Preparation for making banners
         // if(author == 'system') this.type == 'system';
         // else this.type = 'message';
 
