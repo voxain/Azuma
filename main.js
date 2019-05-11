@@ -66,7 +66,7 @@ io.on('connection', (sock) => {
             sock.user = cached_users.get(data);
     
             sock.emit('system', '<b>Welcome to the chat!</b><br>The server time is ' + new Date() + '.<br>Use <b>/help</b> in chat to see a list of chat commands.');
-            io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b style="color: ${sock.user.color}">${sock.user.name}</b>`));
+            setTimeout(() => io.emit('system', randoms.joins[Math.round(Math.random() * (randoms.joins.length - 1))].replace(/%username%/g, `<b style="color: ${sock.user.color}">${sock.user.name}</b>`)), 500); // Give the client time to parse the old messages
         }
         else sock.emit('alert', ['Your login failed.', 'That\'s all we know.']);
     });
@@ -154,7 +154,11 @@ io.on('connection', (sock) => {
                     }
                 }
 
-                else io.emit('message', msg);
+                else {
+                    cached_channels.get(message.channel).messages.push(msg);
+                    if(cached_channels.get(message.channel).messages.length > 50) cached_channels.get(message.channel).messages.shift();
+                    io.emit('message', msg);
+                }
             }
         }
         else{

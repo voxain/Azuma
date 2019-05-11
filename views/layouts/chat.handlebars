@@ -253,6 +253,11 @@
                 }
                 else{
                     channel_list(data.data);
+                    if(data.data[0][1].messages.length > 0){
+                        data.data[0][1].messages.forEach(msg => {
+                            create_message(msg);
+                        });
+                    }
                 }
             });
         }

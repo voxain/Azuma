@@ -48,6 +48,7 @@ class Channel{
         this.name = name;
 
         this.type = type || 'text';
+        this.messages = []; // Preparation for persistent messages, going to introduce a db later.
 
         this.createdAt = Date.now();
     }
@@ -59,6 +60,10 @@ class Message{
         this.content = content;
         this.author = author;
         this.channel = channel;
+
+        // Preparation for making banners persistant
+        // if(author == 'system') this.type == 'system';
+        // else this.type = 'message';
 
         this.createdAt = Date.now();
     }
