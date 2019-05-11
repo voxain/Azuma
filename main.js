@@ -155,6 +155,10 @@ io.on('connection', (sock) => {
                 }
 
                 else {
+                    if(!cached_channels.get(message.channel)){
+                        message.channel = 'general';
+                        sock.emit('alert', ['Your message was delivered to an invalid channel.', 'It will be delivered to #general.'])
+                    }
                     cached_channels.get(message.channel).messages.push(msg);
                     if(cached_channels.get(message.channel).messages.length > 50) cached_channels.get(message.channel).messages.shift();
                     io.emit('message', msg);
