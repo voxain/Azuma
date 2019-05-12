@@ -84,7 +84,7 @@ io.on('connection', (sock) => {
     });
 
     sock.on('typing', state => {
-        if(sock.user.typing != state){
+        if(sock.user && sock.user.typing != state){
             sock.user.typing = state;
             io.emit('typing', {
                 state,
