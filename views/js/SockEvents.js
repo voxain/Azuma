@@ -47,6 +47,20 @@ socket.on('system', al => {
     //create_alert('System', al, 'info');
 });
 
+socket.on('typing', data => {
+    if(data.state){
+        let typer = document.createElement('span');
+        typer.innerHTML = safe_text(data.data.name + ' ');
+        typer.id = 'typing-' + data.data.id;
+
+        $('#typing').append(typer);
+        $('#typing').css('bottom', '70px');
+    }
+    else{
+        $('#typing-' + data.data.id).remove();
+        if(document.getElementById('typing').innerHTML == '<b>Typing: </b>') $('#typing').css('bottom', '40px');
+    }
+});
 
 socket.on('user_change', data => {
     if(data.action == 'new') create_user(data.data);

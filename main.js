@@ -73,7 +73,21 @@ io.on('connection', (sock) => {
 
 
     sock.on('disconnect', () => {
+        io.emit('typing', {
+            state: false,
+            data: sock.user.safeUser()
+        });
         if(sock.user && cached_users.has(sock.user.token)) io.emit('system', randoms.leaves[Math.round(Math.random() * (randoms.leaves.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
+    });
+
+    sock.on('typing', state => {
+        if(sock.user.typing != state){
+            sock.user.typing = state;
+            io.emit('typing', {
+                state,
+                data: sock.user.safeUser()
+            });
+        }
     });
 
     sock.on('message', message => {
@@ -139,7 +153,6 @@ io.on('connection', (sock) => {
                                 if(user.perms.ban || user.perms.admin){
                                     let target = cached_users.filter(u => u.id == args[0]);
                                     if(target){
-                                        console.log(target)
                                         args.shift();
                                         target.ban(args.join(' '), user);
                                         io.emit('system', `${target.name} has been banned by ${msg.author.name}. Reason: ${args.join(' ')}`);

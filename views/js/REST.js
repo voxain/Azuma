@@ -18,8 +18,5 @@ console.log("new req")
         $.get('/api/' + endpoint, data => {
             callback(data);
         });    
-    },
-    shit: function() {
-        return 'asshole'
     }
 };

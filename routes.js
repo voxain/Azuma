@@ -45,7 +45,7 @@ module.exports = app => {
 
         require('./main.js').emit('user_change', {
             action: 'new',
-            data: require('./user_actions.js').safeUser(acc)
+            data: acc.safeUser()
         });
 
         res.send({success:true, token: acc.token});

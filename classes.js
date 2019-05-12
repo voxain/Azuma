@@ -40,6 +40,15 @@ class User{
     prop(property, value){
         this[property] = value;
     }
+    safeUser(){
+        let us = Object.assign({}, this);
+
+        delete us.token;
+        delete us.lastSocket;
+        delete us.signUpAddress;
+
+        return us;
+    }
 }
 
 class Channel{
