@@ -73,11 +73,14 @@ io.on('connection', (sock) => {
 
 
     sock.on('disconnect', () => {
-        io.emit('typing', {
-            state: false,
-            data: sock.user.safeUser()
-        });
-        if(sock.user && cached_users.has(sock.user.token)) io.emit('system', randoms.leaves[Math.round(Math.random() * (randoms.leaves.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
+        
+        if(sock.user && cached_users.has(sock.user.token)){
+            io.emit('typing', {
+                state: false,
+                data: sock.user.safeUser()
+            });
+            io.emit('system', randoms.leaves[Math.round(Math.random() * (randoms.leaves.length - 1))].replace(/%username%/g, `<b>${sock.user.name}</b>`));
+        } 
     });
 
     sock.on('typing', state => {

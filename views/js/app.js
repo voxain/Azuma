@@ -100,6 +100,7 @@ $('#font-switcher').on('change', e => {
 })
 
 $('.message').on('mousedown', e => {
+    e.preventDefault();
     if(e.which == 3){
         // TODO: Show context menu
     }
