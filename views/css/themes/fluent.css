@@ -77,3 +77,21 @@ td{
 .settings-category:hover{
     background: rgba(0,0,0,.2);
 }
+
+.context-menu{
+    backdrop-filter: blur(10px);
+    background: rgba(0,0,0,.5);
+    box-shadow: none;
+}
+
+.context-option{
+    color: rgba(255,255,255,.5);
+}
+.context-option:hover{
+    color: rgba(255,255,255,1);
+    background: rgba(255,255,255,.05);
+}
+
+.context-option.separator{
+    border-bottom: 1px solid rgba(255,255,255,.05);
+}

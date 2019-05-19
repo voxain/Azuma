@@ -25,10 +25,19 @@ let create_context = (type, obj, e) => {
     switch(type){
         case 'message':
             fields = [
-                ['Copy', 'mdil mdil-content-duplicate', () => copyToClipboard(obj.content), true],
-                ['Copy Author ID', 'mdil mdil-account', () => copyToClipboard(obj.author.id)],
+                ['Copy', 'mdil mdil-clipboard', () => copyToClipboard(obj.content), true],
+                ['Copy Author ID', 'mdil mdil-content-duplicate', () => copyToClipboard(obj.author.id)],
                 ['Copy Message ID', 'mdil mdil-message-text', () => copyToClipboard(obj.id), true],
+                ['Show Profile', 'mdil mdil-account', () => create_profile(obj.author)],
                 ['Ban Author', 'mdil mdil-logout', () => socket.emit('message', {content: `/ban ${obj.author.id} No reason provided.`, channel: chat_channel}), false, 'red']
+            ];
+            break;
+        case 'channel':
+            fields = [
+                ['New...', 'mdil mdil-plus', () => create_alert('Coming soon.', 'Check back later.', 'info'), true],
+                ['Copy ID', 'mdil mdil-content-duplicate', () => copyToClipboard(obj.id)],
+                ['Edit', 'mdil mdil-pencil', () => create_alert('Coming soon.', 'Check back later.', 'info')],
+                ['Delete channel', 'mdil mdil-delete', () => create_alert('Coming soon.', 'Check back later.', 'info'), false, 'red']
             ];
             break;
     }
@@ -53,7 +62,7 @@ let create_context = (type, obj, e) => {
 
     menu.style.height = 40 * fields.length;
 
-    $(document.body).on('click', e => {
+    $(document).on('click', e => {
         $(menu).remove();
     });
 

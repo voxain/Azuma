@@ -168,6 +168,13 @@ let channel_list = channels => {
         });
         channele.id = 'channel-' + c.id;
 
+        $(channele).on('mousedown', e => {
+            e.preventDefault();
+            if(e.which == 3){
+                create_context('channel', c, e);
+            }
+        });
+
         $('#channels').append(channele);
     });
 };
