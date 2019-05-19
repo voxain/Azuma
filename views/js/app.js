@@ -1,4 +1,4 @@
-
+document.addEventListener('contextmenu', e => e.preventDefault());
 
 $(document).ready((localhost) => {
     $('a').attr('target', '_blank');
@@ -11,14 +11,14 @@ $(document).ready((localhost) => {
 
 api.request('changelog', ch => {
     ch.forEach((log, i) => {
-        if(!(i >=5)){
+        if(i < 5){
             $('#changelog').append(log[0]);
             $('#changelog').append(document.createElement('br'));
             $('#changelog').append(log[1]);
             $('#changelog').append(document.createElement('br'));
             $('#changelog').append(document.createElement('br'));
         }
-    })
+    });
 });
 
 let who_am_i = 'nobody';
@@ -85,26 +85,20 @@ $('#message').on('keyup', e => {
     }
     else if(!document.getElementById('message').value.length) socket.emit('typing', false);
     else socket.emit('typing', true);
-})
+});
 
 $('#send').on('click', e => {
     send_message();
-})
+});
 
 $('#theme-switcher').on('change', e => {
         document.getElementById('css-theme').href = `/css/themes/${ $('#theme-switcher').val() }.css`
-})
+});
 
 $('#font-switcher').on('change', e => {
     $('body, html, button, input, textarea, select').css('font-family', $('#font-switcher').val());
-})
-
-$('.message').on('mousedown', e => {
-    e.preventDefault();
-    if(e.which == 3){
-        // TODO: Show context menu
-    }
 });
+
 
 $('.chat-messages').on('click', e => {
     $('.chat-messages').removeClass('darken');

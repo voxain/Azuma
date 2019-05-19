@@ -1,5 +1,6 @@
 {
     "recent": [
+        ["19.05.2019", "- Introducing the context menu - you can now right-click messages to perform actions."],
         ["12.05.2019", "- Typing emitters are now a thing! They will be displayed for every user as long as you're typing or until you leave the room."],
         ["11.05.2019", "- Messages are now persistant! Due to the lack of a database, only 50 messages per channel will be cached. Banners/System messages won't be cached."],
         ["08.05.2019", "- Administrators or users with sufficient permissions can now ban a user by their ID."],

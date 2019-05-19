@@ -117,6 +117,33 @@ td{
     color:white !important;
 }
 
+.main-body{
+    width: 92%;
+    height: calc(100% - 60px);
+    padding: 30px;
+    border-radius: 15px;
+    position: fixed;
+    top:0;
+    left: 8%;
+    box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+    overflow-y: auto;
+}
+.main-body::before{
+    position: fixed;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    background: red;
+    box-shadow: 0px 0px 7px rgba(0,0,0,0.2);
+}
+
+.main-headline{
+    font-size: 45px;
+}
+.main-headline.s{
+    font-size: 38px;
+}
+
 
 ::-webkit-scrollbar{
     width: 20px;
@@ -175,4 +202,51 @@ td{
 
 .invert{
     filter: invert(1);
+}
+
+
+
+.context-menu{
+    width: 180px;
+    height: auto;
+    border-radius: 10px;
+    position: fixed;
+    top: 10;
+    left: 10;
+    z-index: 999999999;
+    background: white;
+    box-shadow: 0px 5px 10px rgba(0,0,0,.1);
+    overflow:hidden;
+    overflow-y: auto;
+    animation: contextIn .3s ease;
+}
+
+.context-option{
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    transition: .1s ease;
+    color: #333;
+    box-sizing: border-box;
+}
+.context-option:hover{
+    background: rgba(0,0,0,.05);
+    cursor: pointer;
+}
+
+.context-option.separator{
+    border-bottom: 1px solid rgba(0,0,0,.05);
+}
+
+.context-option-icon{
+    width: 20px;
+    height: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 22px;
+    float: left;
+}
+@keyframes contextIn{
+    0%{opacity: 0; transform: translateY(20px)}
+    100%{opacity: 1; transform: translateY(0px)}
 }

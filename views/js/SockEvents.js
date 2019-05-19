@@ -7,7 +7,7 @@
     let last = {
         author: '',
         id: ''
-    }
+    };
 
     socket.emit('login', window.localStorage.getItem('token'));
 

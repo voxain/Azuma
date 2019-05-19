@@ -1,3 +1,4 @@
+try{
 // Package requirements
 
 const express   = require('express');
@@ -62,7 +63,7 @@ io.on('connection', (sock) => {
     console.log('User connected. SocketID ' + sock.id + ', IP ' + sock.handshake.address);
 
     sock.on('login', data => {
-        if(cached_users.has(data)){
+        if(cached_users.has(data) && cached_users.get(data).banned == 'none'){
             sock.user = cached_users.get(data);
     
             sock.emit('system', '<b>Welcome to the chat!</b><br>The server time is ' + new Date() + '.<br>Use <b>/help</b> in chat to see a list of chat commands.');
@@ -84,7 +85,7 @@ io.on('connection', (sock) => {
     });
 
     sock.on('typing', state => {
-        if(sock.user && sock.user.typing != state){
+        if(sock.user.banned == 'none' && sock.user && sock.user.typing != state){
             sock.user.typing = state;
             io.emit('typing', {
                 state,
@@ -199,3 +200,7 @@ require('./routes.js')(app);
 server.listen(config.port, () => {
     console.log('Webserver listening on port ' + config.port);
 });
+}
+catch(err){
+    console.log('Thank you has-binary2 for causing this nice little error which forced me to use the legendary try-catch around the entire code: ' + err);
+}

@@ -27,6 +27,12 @@ module.exports = app => {
             layout: 'logout'
         });
     });  
+    
+    app.get('/branding', (req, res) => {
+        res.render('home', {
+            layout: 'branding'
+        });
+    });  
 
 
     // API Requests
@@ -43,7 +49,7 @@ module.exports = app => {
         cached_users.set(acc.token, acc);
             
 
-        require('./main.js').emit('user_change', {
+        require('./main.js/index.js').emit('user_change', {
             action: 'new',
             data: acc.safeUser()
         });

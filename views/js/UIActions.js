@@ -4,6 +4,8 @@ let safe_text = text => {
     return dummy.innerHTML;
 };
 
+
+
 let create_alert = (title, description, level) => {
 
     let colors = {
@@ -81,11 +83,12 @@ let create_message = msg => {
         // URL Validation
         let urls = innerText.match(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm);
         if(urls) urls.forEach(u => {
-            innerText = innerText.replace(u, `<a href="${u}">${u}</a>`);
+            innerText = innerText.replace(u, `<a target="_blank" href="${u}">${u}</a>`);
         });
 
     let content = document.createElement('span');
     content.classList = 'message-content';
+    content.id = 'message-content-' + msg.id;
     content.innerHTML = innerText;
 
 
@@ -103,6 +106,13 @@ let create_message = msg => {
         message.id = 'message-' + msg.id;
         last.id = msg.id;
         document.getElementById('messages-container').append(message);
+        
+        $(message).on('mousedown', e => {
+            e.preventDefault();
+            if(e.which == 3){
+                create_context('message', msg, e);
+            }
+        });
     }
     last.author = msg.author;
 
@@ -226,4 +236,10 @@ let create_profile = user => {
         card.append(foot);
 
         $('#appends').append(card);
+};
+
+
+let copyToClipboard = id => {
+    navigator.clipboard.writeText(id);
+    create_alert('Copied to clipboard', safe_text(id), 'info');
 };
