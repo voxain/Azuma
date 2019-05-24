@@ -49,7 +49,7 @@ module.exports = app => {
         cached_users.set(acc.token, acc);
             
 
-        require('./main.js/index.js').emit('user_change', {
+        require('./main.js').emit('user_change', {
             action: 'new',
             data: acc.safeUser()
         });
@@ -79,13 +79,14 @@ module.exports = app => {
     app.get('/api/room/users', (req, res) => {
         let safeDir = [];
         cached_users.get_cache().forEach(u => {
+            
             let us = Object.assign({}, u);
 
             delete us.token;
             delete us.lastSocket;
             delete us.signUpAddress;
 
-            safeDir.push(u);
+            if(u.banned == 'none')safeDir.push(u);
         });
 
         res.send(JSON.stringify({success: true, data: safeDir}));
