@@ -4,6 +4,12 @@ body{
     color: #ccc;
 }
 
+.welcome-right{
+    background: #000;
+    border-left: 3px solid #111;
+    box-sizing: content-box;
+    color:white;
+}
 
 .input, .button{
     color: rgb(218, 218, 218);

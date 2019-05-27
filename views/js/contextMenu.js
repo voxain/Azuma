@@ -17,8 +17,6 @@ class context_entry{
 let create_context = (type, obj, e) => {
     let menu = document.createElement('div');
     menu.classList = 'context-menu';
-    menu.style.left = e.clientX;
-    menu.style.top = e.clientY;
     let fields = [];
 
 
@@ -32,14 +30,21 @@ let create_context = (type, obj, e) => {
                 ['Ban Author', 'mdil mdil-logout', () => socket.emit('message', {content: `/ban ${obj.author.id} No reason provided.`, channel: chat_channel}), false, 'red']
             ];
             break;
-        case 'channel':
-            fields = [
-                ['New...', 'mdil mdil-plus', () => create_alert('Coming soon.', 'Check back later.', 'info'), true],
-                ['Copy ID', 'mdil mdil-content-duplicate', () => copyToClipboard(obj.id)],
-                ['Edit', 'mdil mdil-pencil', () => create_alert('Coming soon.', 'Check back later.', 'info')],
-                ['Delete channel', 'mdil mdil-delete', () => create_alert('Coming soon.', 'Check back later.', 'info'), false, 'red']
-            ];
-            break;
+            case 'channel':
+                fields = [
+                    ['New...', 'mdil mdil-plus', () => create_alert('Coming soon.', 'Check back later.', 'info'), true],
+                    ['Copy ID', 'mdil mdil-content-duplicate', () => copyToClipboard(obj.id)],
+                    ['Edit', 'mdil mdil-pencil', () => create_alert('Coming soon.', 'Check back later.', 'info')],
+                    ['Delete channel', 'mdil mdil-delete', () => create_alert('Coming soon.', 'Check back later.', 'info'), false, 'red']
+                ];
+                break;
+            case 'user':
+                fields = [
+                    ['Assign color', 'mdil mdil-view-module', () => create_alert('Coming soon.', 'Check back later.', 'info')],
+                    ['Copy ID', 'mdil mdil-content-duplicate', () => copyToClipboard(obj.id), true],
+                    ['Ban', 'mdil mdil-logout', () => socket.emit('message', {content: `/ban ${obj.author.id} No reason provided.`, channel: chat_channel}), false, 'red']
+                ];
+                break;
     }
 
     fields.forEach(f => {
@@ -61,6 +66,9 @@ let create_context = (type, obj, e) => {
     });
 
     menu.style.height = 40 * fields.length;
+
+    menu.style.left = e.clientX;
+    menu.style.top = e.clientY <= window.innerHeight - 40 * fields.length ? e.clientY : e.clientY - 40 * fields.length;
 
     $(document).on('click', e => {
         $(menu).remove();

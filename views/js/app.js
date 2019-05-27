@@ -41,7 +41,7 @@ api.request('user/token/' + window.localStorage.getItem('token'), d => {
 
             $('#online-users').text('ONLINE | ' + result.data.length);
             result.data.forEach(acc => {
-                create_user(acc)
+                create_user(acc);
             });
         });
         
@@ -91,8 +91,10 @@ $('#send').on('click', e => {
     send_message();
 });
 
+if(window.localStorage.getItem('usersettings_theme'))document.getElementById('css-theme').href = `/css/themes/${ window.localStorage.getItem('usersettings_theme') }.css`;
 $('#theme-switcher').on('change', e => {
-        document.getElementById('css-theme').href = `/css/themes/${ $('#theme-switcher').val() }.css`
+        document.getElementById('css-theme').href = `/css/themes/${ $('#theme-switcher').val() }.css`;
+        window.localStorage.setItem('usersettings_theme', $('#theme-switcher').val());
 });
 
 $('#font-switcher').on('change', e => {

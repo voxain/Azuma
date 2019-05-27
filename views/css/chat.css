@@ -145,7 +145,6 @@ body{background: black; perspective: 700px;overflow:hidden;}
     padding-left: 20px;
     padding-right: 20px;
     transition: .2s ease;
-    background: white;
     border-radius: 7px;
     font-size: 20px;
     color:#666;

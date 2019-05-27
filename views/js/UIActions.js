@@ -142,9 +142,6 @@ let create_user = acc => {
     if(acc.status != 'online') return;
     let userList = document.createElement('div');
     userList.classList = 'online-user';
-    userList.onclick = () => {
-        create_profile(acc)
-    };
     userList.id = 'online-user-' + acc.id;
 
     let avatar = document.createElement('img');
@@ -154,28 +151,46 @@ let create_user = acc => {
     userList.append(avatar);
     userList.append(document.createTextNode(acc.name));
 
+    $(userList).on('mousedown', e => {
+        e.preventDefault();
+        if(e.which == 3) create_context('user', acc, e);
+        else if(e.which == 1) create_profile(acc);
+    });
+
     $('#online-users').append(userList);
+};
+
+let create_channel = c => {
+    c = c[1];
+
+    let types = {
+        text: '<span class="mdi mdi-pound"></span>',
+        news: '<span class="mdi mdi-bullhorn"></span>',
+        voice: '<span class="mdi mdi-volume-high"></span>',
+        nsfw: '<span class="mdi mdi-alert"></span>'
+    };
+
+    let channele = document.createElement('div');
+    channele.classList = `channel${(c.name == 'general' ? ' active' : '')}`;
+    channele.innerHTML = types[c.type] + ' ' + c.name;
+    $(channele).on('click', () => {
+        channel(c.id);
+    });
+    channele.id = 'channel-' + c.id;
+
+    $(channele).on('mousedown', e => {
+        e.preventDefault();
+        if(e.which == 3){
+            create_context('channel', c, e);
+        }
+    });
+
+    $('#channels').append(channele);
 };
 
 let channel_list = channels => {
     channels.forEach(c => {
-        c = c[1];
-        let channele = document.createElement('div');
-        channele.classList = `channel${(c.name == 'general' ? ' active' : '')}`;
-        channele.innerHTML = '<span class="mdi mdi-pound"></span> ' + c.name;
-        $(channele).on('click', () => {
-            channel(c.id);
-        });
-        channele.id = 'channel-' + c.id;
-
-        $(channele).on('mousedown', e => {
-            e.preventDefault();
-            if(e.which == 3){
-                create_context('channel', c, e);
-            }
-        });
-
-        $('#channels').append(channele);
+        create_channel(c);
     });
 };
 
@@ -247,6 +262,11 @@ let create_profile = user => {
 
 
 let copyToClipboard = id => {
-    navigator.clipboard.writeText(id);
-    create_alert('Copied to clipboard', safe_text(id), 'info');
+    try{
+        navigator.clipboard.writeText(id);
+        create_alert('Copied to clipboard', safe_text(id), 'info');
+    }
+    catch(err){
+        create_alert('Woops!', 'Looks like your Browser doesn\'t support this action.', 'info');
+    }
 };

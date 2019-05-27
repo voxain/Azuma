@@ -22,8 +22,16 @@ let cached_channels = require('./cache_channels.js');
 
 cached_users.set(config.adminToken, new chat.User('administrator', 'admin', [['color', 'red; background: linear-gradient(124deg, #ff2400, #e81d1d, #e8b71d, #e3e81d, #1de840, #1ddde8, #2b1de8, #dd00f3, #dd00f3);-webkit-background-clip: text;-webkit-text-fill-color: transparent;'], ['verified', 'true'], ['token', config.adminToken]])); // Yeah fuck this line but who doesn't want a cool rainbow username for his admin account
 
-cached_channels.set(config.defaultChannel, new chat.Channel(config.defaultChannel));
-cached_channels.set('memes', new chat.Channel('memes'));
+let new_channel = [
+    new chat.Channel('announcements', 'news'),
+    new chat.Channel(config.defaultChannel),
+    new chat.Channel('memes'),
+    new chat.Channel('nsfw', 'nsfw')
+];
+
+new_channel.forEach(c => {
+    cached_channels.set(c.id, c);
+});
 
 
 // Express initialization

@@ -76,6 +76,11 @@ module.exports = app => {
         res.send(JSON.stringify({success: true, data: Array.from(channels)}));
     });
 
+    app.get('/api/room/channel/:id', (req, res) => {
+        let channel = cached_channels.get(req.params.id);
+        res.send(JSON.stringify({success: true, data: Array.from(channel)}));
+    });
+
     app.get('/api/room/users', (req, res) => {
         let safeDir = [];
         cached_users.get_cache().forEach(u => {
