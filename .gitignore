@@ -4,3 +4,6 @@ node_modules/
 package-lock.json
 server-config.json
 .idea/
+Cargo.lock
+target/
+.env
