@@ -53,6 +53,7 @@ api.request('user/token/' + window.localStorage.getItem('token'), d => {
                 create_alert('Channel list couldn\'t be fetched.', 'Please try reloading the page. ' + data.message, 'alert')
             }
             else{
+                chat_channel = data.data[0][1].id;
                 channel_list(data.data);
                 if(data.data[0][1].messages.length > 0){
                     data.data[0][1].messages.forEach(msg => {

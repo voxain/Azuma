@@ -11,6 +11,11 @@ body{
     color:white;
 }
 
+.profile-card{
+    background: black;
+    border: 1px solid #111;
+}
+
 .input, .button{
     color: rgb(218, 218, 218);
     background: black;

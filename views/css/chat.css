@@ -452,6 +452,14 @@ body{background: black; perspective: 700px;overflow:hidden;}
     height: calc(100% - 190px - 150px);
     width: calc(100% + 15px);
 }
+.profile-card-data::before{
+    content: "buffer";
+    color:transparent;
+    background: linear-gradient(180deg, white, transparent);
+    position:absolute;top:220px;left:0;
+    width: calc(100% - 30px);
+    height: 20px;
+}
 .form-footer.profilecard{
     position: absolute;
     bottom: 0;

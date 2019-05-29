@@ -8,6 +8,10 @@ body{
     background: #222;
     color:white;
 }
+.profile-card{
+    background: rgb(46, 46, 46);
+    color:white;
+}
 
 .input, .button{
     color: rgb(218, 218, 218);
@@ -111,3 +115,4 @@ html, body, head {
 .context-option.separator{
     border-bottom: 1px solid rgba(255,255,255,.05);
 }
+

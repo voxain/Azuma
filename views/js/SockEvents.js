@@ -1,6 +1,6 @@
 
    
-    let chat_channel = 'general';
+    let chat_channel = 'none';
 
     var socket = io();
 
