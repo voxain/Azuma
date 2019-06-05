@@ -1,4 +1,5 @@
 extern crate actix_web;
+extern crate bson;
 extern crate lazy_static;
 extern crate mongodb;
 
