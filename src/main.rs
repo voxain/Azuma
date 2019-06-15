@@ -4,7 +4,10 @@ extern crate lazy_static;
 extern crate mongodb;
 
 mod users;
+mod utils;
 
+// for testing
+// use actix_web::{HttpRequest, Responder}
 use actix_web::{server, App, HttpResponse};
 use lazy_static::lazy_static;
 use mongodb::{Client, ThreadedClient};
@@ -14,6 +17,12 @@ lazy_static! {
     pub static ref MONGODB_CLIENT: Client =
         Client::connect("localhost", 27017).expect("Failed to initialize MongoDB client.");
 }
+
+// testing function
+//fn index(req: &HttpRequest) -> impl Responder {
+//    println!("{:?}", utils::azflake::AzFlake::new(1));
+//    "Hello world!"
+//}
 
 fn main() {
     // The actix server is started here.

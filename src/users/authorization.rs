@@ -30,8 +30,15 @@ impl<S> Middleware<S> for AuthMiddleware {
                 match coll.find_one(Some(filter), None).unwrap() {
                     Some(object) => {
                         let mut extensions = req.extensions_mut();
-                        let user: UserId =
-                            object.get("user").unwrap().as_str().unwrap().to_string();
+                        let user = UserId {
+                            id: object
+                                .get("user")
+                                .unwrap()
+                                .as_str()
+                                .unwrap()
+                                .parse::<u64>()
+                                .unwrap(),
+                        };
                         extensions.insert(AuthInfo::LoggedIn(user));
                     }
 
