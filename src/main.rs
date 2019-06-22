@@ -1,14 +1,18 @@
 extern crate actix_web;
+extern crate bcrypt;
 extern crate bson;
 extern crate lazy_static;
 extern crate mongodb;
+extern crate rsgen;
+extern crate serde;
+extern crate serde_derive;
 
 mod users;
 mod utils;
 
 // for testing
 // use actix_web::{HttpRequest, Responder}
-use actix_web::{server, App, HttpResponse};
+use actix_web::{http, server, App, HttpResponse};
 use lazy_static::lazy_static;
 use mongodb::{Client, ThreadedClient};
 use users::authorization::AuthMiddleware;
@@ -32,7 +36,11 @@ fn main() {
             App::new()
                 .prefix("/api")
                 .middleware(AuthMiddleware)
-                .resource("/", |r| r.f(|_r| HttpResponse::Ok())),
+                .resource("/", |r| r.f(|_r| HttpResponse::Ok()))
+                .resource("/login", |r| {
+                    r.method(http::Method::POST)
+                        .with(users::authentication::login)
+                }),
             App::new()
                 .prefix("/ws")
                 .middleware(AuthMiddleware)

@@ -1,5 +1,4 @@
-use crate::users::user::UserId;
-use crate::MONGODB_CLIENT;
+use crate::{users::user::UserId, MONGODB_CLIENT};
 use actix_web::{
     middleware::{Middleware, Started},
     HttpRequest, Result,

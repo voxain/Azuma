@@ -13,7 +13,7 @@ pub enum UserGroup {
 
 // States a user can have,
 // only one at a time possible
-pub enum UserStates {
+pub enum UserState {
     Online,
     Away,
     DoNotDisturb,
@@ -26,5 +26,5 @@ pub struct User {
     username: String,
     password: String,
     user_groups: Vec<UserGroup>,
-    status: UserStates,
+    status: UserState,
 }

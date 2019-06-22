@@ -16,7 +16,6 @@ lazy_static! {
 // 40 bits timestamp, seconds since 01.01.2019
 // 12 bits increasing counter, restarts every millisecond
 // 12 bits process id
-#[derive(Debug)]
 pub struct AzFlake {
     pub id: u64,
 }
