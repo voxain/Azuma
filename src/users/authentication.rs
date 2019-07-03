@@ -1,4 +1,7 @@
-use crate::{utils::azflake::AzFlake, MONGODB_CLIENT};
+use crate::{
+    utils::{azflake::AzFlake, generic_responses::ErrorBody},
+    MONGODB_CLIENT,
+};
 use actix_web::{http, HttpResponse, Json};
 use bcrypt::verify;
 use mongodb::{db::ThreadedDatabase, ordered::OrderedDocument, ThreadedClient};
@@ -9,11 +12,6 @@ use serde_derive::{Deserialize, Serialize};
 pub struct LoginData {
     username: String,
     password: String,
-}
-
-#[derive(Deserialize, Serialize)]
-struct ErrorBody {
-    error: String,
 }
 
 pub fn login(login_data: Json<LoginData>) -> HttpResponse {

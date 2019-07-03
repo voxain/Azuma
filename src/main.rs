@@ -40,6 +40,10 @@ fn main() {
                 .resource("/login", |r| {
                     r.method(http::Method::POST)
                         .with(users::authentication::login)
+                })
+                .resource("/register", |r| {
+                    r.method(http::Method::POST)
+                        .with(users::registration::register)
                 }),
             App::new()
                 .prefix("/ws")

@@ -1,6 +1,6 @@
 [package]
 name = "azuma_backend"
-version = "0.0.0"
+version = "0.0.1"
 authors = ["okrplay <32576280+okrplay@users.noreply.github.com>"]
 edition = "2018"
 
